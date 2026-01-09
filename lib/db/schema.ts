@@ -11,6 +11,7 @@ import {
   integer,
   jsonb,
   
+  
 } from "drizzle-orm/pg-core";
 
 // ============================================
@@ -160,6 +161,7 @@ export const car = pgTable("car", {
   vendorId: uuid("vendor_id")
     .notNull()
     .references(() => vendor.id, { onDelete: "cascade" }),
+  slug: text("slug").notNull().unique(),  
   make: text("make").notNull(),
   model: text("model").notNull(),
   year: integer("year").notNull(),

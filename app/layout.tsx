@@ -1,16 +1,19 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Economica, Geist, Geist_Mono, Hanken_Grotesk } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+
+const economica = Economica({
+  weight: ["400", "700"],
+  variable: "--font-economica",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const hankenGrotesk = Hanken_Grotesk({
+  weight: ["400", "700"],
+  variable: "--font-hanken-grotesk",
   subsets: ["latin"],
-});
+})
 
 export const metadata: Metadata = {
   title: "Drivaro - Premium Car Rental Service.",
@@ -25,7 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`font-hanken-grotesk antialiased ${economica.variable} ${hankenGrotesk.variable}`}
       >
         {children}
       </body>

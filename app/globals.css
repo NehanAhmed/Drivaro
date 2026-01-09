@@ -4,6 +4,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --font-hanken-grotesk: var(--font-hanken-grotesk);
+  --font-economica: var(--font-economica);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
@@ -48,41 +50,41 @@
 
 :root {
   --radius: 0.625rem;
-  
+
   /* Light Theme - Cream background with blue primary */
   --background: oklch(0.96 0.04 95);        /* #FAF0CA - Cream */
   --foreground: oklch(0.26 0.08 245);       /* #0D3B66 - Dark Blue */
-  
+
   --card: oklch(0.98 0.02 95);              /* Lighter cream for cards */
   --card-foreground: oklch(0.26 0.08 245);  /* Dark Blue */
-  
+
   --popover: oklch(0.98 0.02 95);
   --popover-foreground: oklch(0.26 0.08 245);
-  
+
   --primary: oklch(0.26 0.08 245);          /* #0D3B66 - Dark Blue */
   --primary-foreground: oklch(0.96 0.04 95); /* Cream */
-  
+
   --secondary: oklch(0.93 0.05 95);         /* Slightly darker cream */
   --secondary-foreground: oklch(0.26 0.08 245);
-  
+
   --muted: oklch(0.93 0.05 95);
   --muted-foreground: oklch(0.45 0.06 245);
-  
+
   --accent: oklch(0.85 0.14 85);            /* #F4D35E - Golden Yellow */
   --accent-foreground: oklch(0.26 0.08 245);
-  
+
   --destructive: oklch(0.577 0.245 27.325);
-  
+
   --border: oklch(0.88 0.06 95);
   --input: oklch(0.88 0.06 95);
   --ring: oklch(0.85 0.14 85);              /* Golden Yellow ring */
-  
+
   --chart-1: oklch(0.26 0.08 245);          /* Dark Blue */
   --chart-2: oklch(0.85 0.14 85);           /* Golden Yellow */
   --chart-3: oklch(0.96 0.04 95);           /* Cream */
   --chart-4: oklch(0.55 0.12 245);          /* Mid Blue */
   --chart-5: oklch(0.75 0.12 85);           /* Light Gold */
-  
+
   --sidebar: oklch(0.98 0.02 95);
   --sidebar-foreground: oklch(0.26 0.08 245);
   --sidebar-primary: oklch(0.26 0.08 245);
@@ -97,37 +99,37 @@
   /* Dark Theme - Dark blue background with cream text */
   --background: oklch(0.26 0.08 245);       /* #0D3B66 - Dark Blue */
   --foreground: oklch(0.96 0.04 95);        /* #FAF0CA - Cream */
-  
+
   --card: oklch(0.32 0.08 245);             /* Slightly lighter blue */
   --card-foreground: oklch(0.96 0.04 95);
-  
+
   --popover: oklch(0.32 0.08 245);
   --popover-foreground: oklch(0.96 0.04 95);
-  
+
   --primary: oklch(0.85 0.14 85);           /* #F4D35E - Golden Yellow */
   --primary-foreground: oklch(0.26 0.08 245);
-  
+
   --secondary: oklch(0.35 0.08 245);        /* Mid blue */
   --secondary-foreground: oklch(0.96 0.04 95);
-  
+
   --muted: oklch(0.35 0.08 245);
   --muted-foreground: oklch(0.75 0.03 95);
-  
+
   --accent: oklch(0.85 0.14 85);            /* #F4D35E - Golden Yellow */
   --accent-foreground: oklch(0.26 0.08 245);
-  
+
   --destructive: oklch(0.704 0.191 22.216);
-  
+
   --border: oklch(0.40 0.08 245);
   --input: oklch(0.40 0.08 245);
   --ring: oklch(0.85 0.14 85);              /* Golden Yellow ring */
-  
+
   --chart-1: oklch(0.85 0.14 85);           /* Golden Yellow */
   --chart-2: oklch(0.96 0.04 95);           /* Cream */
   --chart-3: oklch(0.55 0.12 245);          /* Mid Blue */
   --chart-4: oklch(0.75 0.12 85);           /* Light Gold */
   --chart-5: oklch(0.65 0.10 245);          /* Light Blue */
-  
+
   --sidebar: oklch(0.23 0.08 245);          /* Darker blue */
   --sidebar-foreground: oklch(0.96 0.04 95);
   --sidebar-primary: oklch(0.85 0.14 85);   /* Golden Yellow */
