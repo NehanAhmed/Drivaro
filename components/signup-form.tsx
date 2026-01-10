@@ -17,6 +17,7 @@ import { useEffect, useState } from "react"
 import { toast } from "sonner"
 import { authClient } from "@/lib/auth-client"
 import { isAuth } from "@/lib/actions/isAuth.action"
+import { useRouter } from "next/navigation"
 
 export function SignupForm({
   className,
@@ -29,7 +30,7 @@ export function SignupForm({
   const [loading, setLoading] = useState(false)
   const [googleLoading, setGoogleLoading] = useState(false)
 
-  
+  const router = useRouter();
 
   const validateForm = () => {
     if (!name.trim() || !email.trim() || !password || !confirmPassword) {
@@ -118,16 +119,18 @@ export function SignupForm({
       }
 
       // Create vendor profile
-      const vendorCreated = await handleVendorProfileCreation(userId)
+      localStorage.setItem('user_id', userId);
 
-      if (vendorCreated) {
-        toast.success("Account created successfully! Please check your email to verify your account.")
-        // Clear form on success
-        setName("")
-        setEmail("")
-        setPassword("")
-        setConfirmPassword("")
-      }
+      toast.success("Account created successfully!")
+      setTimeout(() => {
+        router.push("/vendor/login");
+      }, 3000);
+      // Clear form on success
+      setName("")
+      setEmail("")
+      setPassword("")
+      setConfirmPassword("")
+
     } catch (error) {
       console.error("Signup error:", error)
       toast.error("An unexpected error occurred. Please try again.")
