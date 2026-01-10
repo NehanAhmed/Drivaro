@@ -29,15 +29,7 @@ export function SignupForm({
   const [loading, setLoading] = useState(false)
   const [googleLoading, setGoogleLoading] = useState(false)
 
-  useEffect(() => {
-    const checkIsVendorAuth = async () => {
-      const isVendorLoggedIn = await isAuth()
-      if (isVendorLoggedIn) {
-        window.location.href = "/vendor/dashboard"
-      }
-    }
-    checkIsVendorAuth()
-  }, [])
+  
 
   const validateForm = () => {
     if (!name.trim() || !email.trim() || !password || !confirmPassword) {
