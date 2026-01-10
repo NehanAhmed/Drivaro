@@ -27,7 +27,7 @@ const Footer = () => {
   };
 
   const socialLinks = [
-    {icon:, href: 'https://nehan.vercel.app', label: 'Portfolio' },
+    { icon: IconGlobeFilled, href: 'https://nehan.vercel.app', label: 'Portfolio' },
     { icon: IconBrandFacebook, href: 'https://www.facebook.com', label: 'Facebook' },
     { icon: IconBrandX, href: 'https://x.com/@Nehanahmed988', label: 'Twitter' },
     { icon: IconBrandInstagram, href: 'https://instagram.com/__nehanansari', label: 'Instagram' },
