@@ -45,7 +45,7 @@ const CarsGrid = ({ cars }: { cars: ICarCard[] }) => {
             {filteredCars.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {filteredCars.map((car) => (
-                        <CarCard car={car} />
+                        <CarCard key={car.id} car={car} />
                     ))}
                 </div>
             ) : (

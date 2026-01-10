@@ -32,7 +32,7 @@ export default function RootLayout({
         className={`font-hanken-grotesk  antialiased ${cinzel.variable} ${hankenGrotesk.variable}`}
       >
         {children}
-        <Toaster closeButton expand richColors />
+        <Toaster position="top-right" closeButton expand richColors />
 
       </body>
     </html>

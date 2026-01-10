@@ -1,9 +1,15 @@
 'use client'
 import React, { useState } from 'react';
-import { 
-  Mail, 
-  Phone, 
-  MapPin, 
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
+import {
+  Mail,
+  Phone,
+  MapPin,
   Send,
   Github,
   Instagram,
@@ -17,6 +23,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { toast } from 'sonner';
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({
@@ -27,12 +34,55 @@ const ContactPage = () => {
     message: ''
   });
 
-  const handleSubmit = () => {
-    // Handle form submission
-    console.log('Form submitted:', formData);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  
+  const isValidEmail = (email: string) =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  const handleSubmit = async () => {
+    if (isSubmitting) return;
+
+    const { name, email, subject, message } = formData;
+
+    if (!name || !email || !subject || !message) {
+      toast.error("Please fill all required fields");
+      return;
+    }
+
+    if (!isValidEmail(email)) {
+      toast.error("Please enter a valid email address");
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      toast.success("Your Message has Been Sent");
+
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        subject: '',
+        message: ''
+      });
+
+    } catch (err) {
+      toast.error("Failed to send message. Try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
 
   const contactInfo = [
     {
@@ -122,6 +172,7 @@ const ContactPage = () => {
         <div className="max-w-6xl mx-auto px-4 md:px-6 lg:px-8">
           <div className="grid lg:grid-cols-3 gap-8">
             {/* Contact Form */}
+            {/* Contact Form */}
             <div className="lg:col-span-2">
               <Card className="border border-border">
                 <CardContent className="p-6 md:p-8">
@@ -138,59 +189,46 @@ const ContactPage = () => {
                     <div className="grid md:grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <Label htmlFor="name">Full Name</Label>
-                        <Input
-                          id="name"
-                          name="name"
-                          placeholder="John Doe"
-                        />
+                        <Input id="name" name="name" placeholder="John Doe"
+                          value={formData.name} onChange={handleChange} />
                       </div>
 
                       <div className="space-y-2">
                         <Label htmlFor="email">Email Address</Label>
-                        <Input
-                          id="email"
-                          name="email"
-                          type="email"
-                          placeholder="john@example.com"
-                        />
+                        <Input id="email" name="email" type="email" placeholder="john@example.com"
+                          value={formData.email} onChange={handleChange} />
                       </div>
                     </div>
 
                     <div className="grid md:grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <Label htmlFor="phone">Phone Number</Label>
-                        <Input
-                          id="phone"
-                          name="phone"
-                          type="tel"
-                          placeholder="03XX XXXXXXX"
-                        />
+                        <Input id="phone" name="phone" type="tel" placeholder="03XX XXXXXXX"
+                          value={formData.phone} onChange={handleChange} />
                       </div>
 
                       <div className="space-y-2">
                         <Label htmlFor="subject">Subject</Label>
-                        <Input
-                          id="subject"
-                          name="subject"
-                          placeholder="How can we help?"
-                        />
+                        <Input id="subject" name="subject" placeholder="How can we help?"
+                          value={formData.subject} onChange={handleChange} />
                       </div>
                     </div>
 
                     <div className="space-y-2">
                       <Label htmlFor="message">Message</Label>
-                      <Textarea
-                        id="message"
-                        name="message"
+                      <Textarea id="message" name="message" rows={6} className="resize-none"
                         placeholder="Tell us more about your inquiry..."
-                        rows={6}
-                        className="resize-none"
-                      />
+                        value={formData.message} onChange={handleChange} />
                     </div>
 
-                    <Button onClick={handleSubmit} className="w-full md:w-auto" size="lg">
+                    <Button
+                      onClick={handleSubmit}
+                      className="w-full md:w-auto"
+                      size="lg"
+                      disabled={isSubmitting}
+                    >
                       <Send className="w-4 h-4 mr-2" />
-                      Send Message
+                      {isSubmitting ? "Sending..." : "Send Message"}
                     </Button>
                   </div>
                 </CardContent>
@@ -216,7 +254,7 @@ const ContactPage = () => {
                             {info.label}
                           </p>
                           {info.href ? (
-                            <a 
+                            <a
                               href={info.href}
                               className="text-sm text-muted-foreground hover:text-foreground transition-colors break-words"
                             >
@@ -292,36 +330,38 @@ const ContactPage = () => {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-16 md:py-20 bg-card border-t border-border">
-        <div className="max-w-4xl mx-auto px-4 md:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Frequently Asked Questions
-            </h2>
-            <p className="text-muted-foreground">
-              Quick answers to common questions
-            </p>
-          </div>
+     <section className="py-16 md:py-20 bg-card border-t border-border">
+  <div className="max-w-4xl mx-auto px-4 md:px-6 lg:px-8">
+    <div className="text-center mb-12">
+      <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+        Frequently Asked Questions
+      </h2>
+      <p className="text-muted-foreground">
+        Quick answers to common questions
+      </p>
+    </div>
 
-          <div className="space-y-4">
-            {faqs.map((faq, index) => (
-              <Card key={index} className="border border-border bg-background">
-                <CardContent className="p-6">
-                  <h3 className="text-lg font-semibold text-foreground mb-2">
-                    {faq.question}
-                  </h3>
-                  <p className="text-foreground/70">
-                    {faq.answer}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
+    <Accordion type="single" collapsible className="space-y-4">
+      {faqs.map((faq, index) => (
+        <AccordionItem 
+          key={index} 
+          value={`item-${index}`}
+          className="border border-border bg-background rounded-lg px-6"
+        >
+          <AccordionTrigger className="text-lg font-semibold text-foreground hover:no-underline">
+            {faq.question}
+          </AccordionTrigger>
+          <AccordionContent className="text-foreground/70 pt-2">
+            {faq.answer}
+          </AccordionContent>
+        </AccordionItem>
+      ))}
+    </Accordion>
+  </div>
+</section>
 
       {/* Built By Section */}
-      
+
     </div>
   );
 };
