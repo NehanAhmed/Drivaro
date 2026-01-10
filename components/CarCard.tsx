@@ -7,7 +7,7 @@ import { Button } from './ui/button';
 import Link from 'next/link';
 import { motion } from 'motion/react';
 
-interface ICarCard {
+export interface ICarCard {
     id: string;
     slug: string;
     vendorId: string;

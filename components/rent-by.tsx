@@ -35,7 +35,7 @@ const RentBy = () => {
                     {carBrands.map((brand) => (
                         <div key={brand.name} className='flex flex-col items-center  bg-accent rounded-lg p-4'>
                             <img src={brand.logo} alt={brand.name} className='w-50 h-20 object-contain mb-2' />
-                            <span>{brand.name}</span>
+                            <span className='font-extrabold text-xl'>{brand.name}</span>
                         </div>
                     ))}
                 </div>
@@ -46,7 +46,7 @@ const RentBy = () => {
                     {carTypes.map((type) => (
                         <div key={type.name} className='flex flex-col items-center  bg-accent rounded-lg p-4'>
                             <img src={type.logo} alt={type.name} className='w-50 h-20 object-contain mb-2' />
-                            <span>{type.name}</span>
+                            <span  className='font-extrabold text-xl'>{type.name}</span>
                         </div>
                     ))}
                 </div>

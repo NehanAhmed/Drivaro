@@ -2,15 +2,16 @@ import Image from 'next/image'
 import React from 'react'
 import { Input } from './ui/input'
 import { Button } from './ui/button'
+import { IconCar } from '@tabler/icons-react'
 
 const Hero = () => {
   return (
-    <section className='w-full  flex flex-col my-30  items-center  font-hanken-grotesk'>
+    <section className='w-full  flex flex-col my-50  items-center  font-hanken-grotesk'>
       <div className='w-full flex items-center justify-center'>
-        <h1 className='text-9xl font-economica font-extrabold w-200 text-center -my-20 z-10 '>Luxury Rides <br /> for every journey.</h1>
+        <h1 className='text-8xl font-cinzel font-semibold w-240 text-center -my-30 z-10 leading-22'><span className='font-extrabold'>Luxury Rides</span>  for every journey.</h1>
       </div>
       <div>
-        <Image src={'/Images/Hero-Car-Image.png'} width={800} height={400} alt="Hero Car" />
+        <Image src={'/Images/Hero-Car-Image.png'} width={1000} height={200} alt="Hero Car" />
       </div>
       <div className='w-260 my-10 h-35 rounded-2xl border border-border shadow-lg flex items-center justify-center gap-5 px-4 py-2'>
         <div className='text-start'>
@@ -31,7 +32,7 @@ const Hero = () => {
         </div>
 
         <div className='flex flex-col items-end justify-end h-15'>
-          <Button>Find a Vehicle</Button>
+          <Button><IconCar /> Find a Vehicle</Button>
         </div>
       </div>
     </section>

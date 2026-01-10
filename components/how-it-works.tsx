@@ -23,7 +23,7 @@ const HowItWorks = () => {
   ];
 
   return (
-    <section className="w-full py-16 px-4 md:px-6 lg:px-8">
+    <section className="w-full  py-16 px-4 md:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
@@ -69,12 +69,12 @@ const HowItWorks = () => {
           </div>
 
           {/* Right Side - Car Image */}
-          <div className="h-full">
+          <div className="w-full h-full">
             <div className="rounded-3xl bg-muted/30 ">
-              <img
-                width={100}
-                height={100}
-                src="https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=800&q=80" 
+              <Image
+                width={1000}
+                height={1000}
+                src="/Images/How-it-Works-Image.png" 
                 alt="Premium Jeep Wrangler"
                 className="w-full h-full object-contain drop-shadow-2xl rounded-xl"
               />

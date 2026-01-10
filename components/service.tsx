@@ -3,7 +3,7 @@ import React from 'react'
 
 const Service = () => {
     return (
-        <section className='bg-black text-white p-10'>
+        <section className='border-t p-10'>
             <div className='text-center my-10 flex flex-col items-center gap-4'>
                 <h1 className='text-4xl font-semibold'>Our Service & Benefits</h1>
                 <p className='w-200 text-center text-neutral-400'>To make renting easy and hassle-free, we provide a variety of services and advantages. We have you covered with a variety of vehicles and flexible rental terms.</p>

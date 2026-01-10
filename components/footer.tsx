@@ -1,16 +1,16 @@
 import React from 'react';
 import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
-import { IconBrandFacebook, IconBrandInstagram, IconBrandLinkedin, IconBrandX } from '@tabler/icons-react';
+import { IconBrandFacebook, IconBrandInstagram, IconBrandLinkedin, IconBrandX, IconGlobeFilled } from '@tabler/icons-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   const footerLinks = {
     company: [
-      { label: 'About Us', href: '#' },
-      { label: 'Our Fleet', href: '#' },
-      { label: 'Careers', href: '#' },
-      { label: 'Contact', href: '#' }
+      { label: 'About Us', href: '/about' },
+      { label: 'Our Fleet', href: '/cars' },
+      
+      { label: 'Contact', href: '/contact' }
     ],
     services: [
       { label: 'Luxury Rentals', href: '#' },
@@ -27,6 +27,7 @@ const Footer = () => {
   };
 
   const socialLinks = [
+    {icon:, href: 'https://nehan.vercel.app', label: 'Portfolio' },
     { icon: IconBrandFacebook, href: 'https://www.facebook.com', label: 'Facebook' },
     { icon: IconBrandX, href: 'https://x.com/@Nehanahmed988', label: 'Twitter' },
     { icon: IconBrandInstagram, href: 'https://instagram.com/__nehanansari', label: 'Instagram' },
@@ -40,7 +41,29 @@ const Footer = () => {
   ];
 
   return (
+  
     <footer className="w-full border-t border-border bg-background">
+      <section className="py-12 border-b-2  border-border">
+        <div className="max-w-4xl mx-auto px-4 md:px-6 lg:px-8 text-center">
+          <p className="text-sm text-muted-foreground mb-2">
+            Platform built and maintained by
+          </p>
+          <p className="text-lg font-semibold text-foreground mb-3">
+            Nehan Ahmed
+          </p>
+          <div className="flex items-center justify-center gap-2">
+            <span className="text-sm text-muted-foreground">Portfolio:</span>
+            <a 
+              href="https://nehan.vercel.app" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-sm text-primary hover:underline font-medium"
+            >
+              nehan.vercel.app
+            </a>
+          </div>
+        </div>
+      </section>
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
         {/* Main Footer Content */}
         <div className="py-12 md:py-16">

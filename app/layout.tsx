@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import { Economica, Geist, Geist_Mono, Hanken_Grotesk } from "next/font/google";
+import { Cinzel, Cinzel_Decorative, Economica, Geist, Geist_Mono, Hanken_Grotesk } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "@/components/ui/sonner";
 
 
-const economica = Economica({
+const cinzel = Cinzel_Decorative({
   weight: ["400", "700"],
-  variable: "--font-economica",
+  variable: "--font-cinzel",
   subsets: ["latin"],
 });
 
@@ -28,9 +29,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`font-hanken-grotesk antialiased ${economica.variable} ${hankenGrotesk.variable}`}
+        className={`font-hanken-grotesk  antialiased ${cinzel.variable} ${hankenGrotesk.variable}`}
       >
         {children}
+        <Toaster closeButton expand richColors />
+
       </body>
     </html>
   );

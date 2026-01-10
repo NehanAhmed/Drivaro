@@ -37,7 +37,7 @@ const Header = () => {
 
                     <SheetContent side="left" className="w-[300px] sm:w-[350px] px-4">
                         <SheetHeader className="text-left mb-6">
-                            <SheetTitle className="text-4xl font-extrabold font-economica ">
+                            <SheetTitle className="text-4xl font-extrabold font-cinzel ">
                                 Drivaro
                             </SheetTitle>
                         </SheetHeader>
@@ -60,7 +60,7 @@ const Header = () => {
 
                         {/* Action Buttons */}
                         <div className="space-y-3">
-                            <Link href="/get-started">
+                            <Link href="/vendor/register">
                                 <Button variant={'outline'} className='w-full'>Login / Register</Button>
                             </Link>
 
@@ -77,10 +77,10 @@ const Header = () => {
 
             </div>
             <div>
-                <Link href="/"><h1 className='text-4xl font-extrabold font-economica'>Drivaro</h1></Link>
+                <Link href="/"><h1 className='text-4xl font-extrabold font-cinzel'>Drivaro</h1></Link>
             </div>
             <div>
-                <Link href="/get-started"><Button variant={'outline'}>Login / Register</Button></Link>
+                <Link href="/vendor/register"><Button variant={'outline'}>Login / Register</Button></Link>
             </div>
         </header>
     )
