@@ -6,12 +6,14 @@ import { IconCar } from '@tabler/icons-react'
 
 const Hero = () => {
   return (
-    <section className='w-full  flex flex-col my-50  items-center  font-hanken-grotesk'>
-      <div className='w-full flex items-center justify-center'>
-        <h1 className='text-8xl font-cinzel font-semibold w-240 text-center -my-30 z-10 leading-22'><span className='font-extrabold'>Luxury Rides</span>  for every journey.</h1>
-      </div>
-      <div>
-        <Image src={'/Images/Hero-Car-Image.png'} width={1000} height={200} alt="Hero Car" />
+    <section className='w-full  flex flex-col  items-center  font-hanken-grotesk'>
+      <div className='flex flex-col items-center justify-center my-15'> 
+        <div>
+          <h1 className='text-8xl font-cinzel font-semibold w-240 text-center leading-22'><span className='font-extrabold'>Luxury Rides</span>  for every journey.</h1>
+        </div>
+        <div className='flex items-center justify-start  h-100'>
+          <Image src={'/Images/Hero-Car-Image.png'} width={1000} height={100} alt="Hero Car" className='' />
+        </div>
       </div>
       <div className='w-260 my-10 h-35 rounded-2xl border border-border shadow-lg flex items-center justify-center gap-5 px-4 py-2'>
         <div className='text-start'>
