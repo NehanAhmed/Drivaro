@@ -32,12 +32,7 @@ const ContactPage = () => {
     console.log('Form submitted:', formData);
   };
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
+  
 
   const contactInfo = [
     {
@@ -147,8 +142,6 @@ const ContactPage = () => {
                           id="name"
                           name="name"
                           placeholder="John Doe"
-                          value={formData.name}
-                          onChange={handleChange}
                         />
                       </div>
 
@@ -159,8 +152,6 @@ const ContactPage = () => {
                           name="email"
                           type="email"
                           placeholder="john@example.com"
-                          value={formData.email}
-                          onChange={handleChange}
                         />
                       </div>
                     </div>
@@ -173,8 +164,6 @@ const ContactPage = () => {
                           name="phone"
                           type="tel"
                           placeholder="03XX XXXXXXX"
-                          value={formData.phone}
-                          onChange={handleChange}
                         />
                       </div>
 
@@ -184,8 +173,6 @@ const ContactPage = () => {
                           id="subject"
                           name="subject"
                           placeholder="How can we help?"
-                          value={formData.subject}
-                          onChange={handleChange}
                         />
                       </div>
                     </div>
@@ -197,8 +184,6 @@ const ContactPage = () => {
                         name="message"
                         placeholder="Tell us more about your inquiry..."
                         rows={6}
-                        value={formData.message}
-                        onChange={handleChange}
                         className="resize-none"
                       />
                     </div>
