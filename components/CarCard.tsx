@@ -41,11 +41,11 @@ export interface ICarCard {
 const CarCard = ({ car }: { car: ICarCard }) => {
     const MotionCard = motion.create(Card);
     return (
-        <MotionCard layoutId={car.id} className='w-full max-w-2xl'>
-            <CardHeader>
-                <Image src={car.images?.[0] || '/default-car-image.jpg'} alt={`${car.make} ${car.model}`} width={400} height={200} />
+        <MotionCard layoutId={car.id} className='w-full max-w-2xl py-0 '>
+            <CardHeader className='px-0 py-0'>
+                <Image src={car.images?.[0] || '/default-car-image.jpg'} alt={`${car.make} ${car.model}`} width={400} height={100} className='object-cover object-center rounded-tl-2xl rounded-tr-2xl aspect-square'/>
             </CardHeader>
-            <CardContent>
+            <CardContent className='py-4'>
                 <h2 className='font-semibold text-lg text-start' >{car.make} {car.model}</h2>
                 <h1 className='text-start my-2 text-2xl font-semibold'>{car.dailyRate} $ / <span className='text-lg font-medium text-neutral-400'>day</span></h1>
                 <div className='w-full flex items-center justify-start my-5 gap-4'>

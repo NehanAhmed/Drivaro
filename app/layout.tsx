@@ -31,6 +31,7 @@ export default function RootLayout({
       <body
         className={`font-hanken-grotesk  antialiased ${cinzel.variable} ${hankenGrotesk.variable}`}
       >
+
         {children}
         <Toaster position="top-right" closeButton expand richColors />
 

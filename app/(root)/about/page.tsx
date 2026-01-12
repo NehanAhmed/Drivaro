@@ -37,7 +37,7 @@ const AboutUsPage = () => {
 
                     <div className="prose prose-lg max-w-none space-y-6 text-foreground/80">
                         <p className="text-lg md:text-xl leading-relaxed">
-                            RentDrive was born from a simple observation: car rental should be easier, more transparent,
+                            Drivaro was born from a simple observation: car rental should be easier, more transparent,
                             and more accessible. Traditional rental companies often come with hidden fees, limited selection,
                             and impersonal service. We knew there had to be a better way.
                         </p>
@@ -49,7 +49,7 @@ const AboutUsPage = () => {
                         </p>
 
                         <p className="text-lg md:text-xl leading-relaxed">
-                            Today, RentDrive is a thriving multi-vendor platform where verified car owners can monetize
+                            Today, Drivaro is a thriving multi-vendor platform where verified car owners can monetize
                             their vehicles and customers can access a diverse fleet of cars at competitive prices. We've
                             built more than just a rental platform; we've created a community built on trust, convenience,
                             and mutual benefit.
@@ -138,7 +138,7 @@ const AboutUsPage = () => {
                                 <h3 className="text-2xl md:text-3xl font-bold text-foreground">Our Solution</h3>
                             </div>
                             <p className="text-lg text-center text-foreground/80 leading-relaxed max-w-3xl mx-auto">
-                                RentDrive connects verified car owners with customers through a secure, transparent platform.
+                                Drivaro connects verified car owners with customers through a secure, transparent platform.
                                 We handle verification, insurance, payments, and support—so both parties can focus on what
                                 matters: a great rental experience. With real-time availability, instant bookings, competitive
                                 pricing, and comprehensive damage documentation, we've made car rental simple, safe, and satisfying.
@@ -248,7 +248,7 @@ const AboutUsPage = () => {
 
                                 <p className="text-foreground/80 leading-relaxed max-w-2xl mx-auto">
                                     Passionate about building technology that solves real-world problems and creates
-                                    opportunities for people. RentDrive is a testament to what happens when innovation
+                                    opportunities for people. Drivaro is a testament to what happens when innovation
                                     meets purpose.
                                 </p>
 
