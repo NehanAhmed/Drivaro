@@ -1,6 +1,5 @@
 'use client'
-import { useAppDispatch, useAppSelector } from '@/lib/store/hooks';
-import { setUserId } from '@/lib/store/slices/userSlice';
+
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -31,8 +30,7 @@ export function SignupForm({
   const [confirmPassword, setConfirmPassword] = useState("")
   const [loading, setLoading] = useState(false)
   const [googleLoading, setGoogleLoading] = useState(false)
-  const dispatch = useAppDispatch();
-  const { userId, isAuthenticated } = useAppSelector((state) => state.user);
+  
 
   const router = useRouter();
 
@@ -124,7 +122,6 @@ export function SignupForm({
 
       // Create vendor profile
       localStorage.setItem('user_id', userId);
-      dispatch(setUserId(userId));
 
 
       toast.success("Account created successfully!")
