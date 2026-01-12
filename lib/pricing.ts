@@ -19,8 +19,8 @@ export function calculateBookingPrice(
     endDate: Date,
     commissionRate: number = 15 // 15% default
 ): PricingCalculation {
-    const totalDays = differenceInDays(endDate, startDate) || 1;
-
+    const rawDays = differenceInDays(endDate, startDate);
+    const totalDays = rawDays <= 0 ? 1 : rawDays;
     let basePrice = 0;
 
     // Apply weekly/monthly rates if applicable
