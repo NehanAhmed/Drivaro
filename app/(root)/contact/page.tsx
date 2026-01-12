@@ -162,7 +162,7 @@ const ContactPage = () => {
             Get in Touch
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Have questions about RentDrive? We're here to help. Reach out and we'll respond as soon as possible.
+            Have questions about Drivaro? We're here to help. Reach out and we'll respond as soon as possible.
           </p>
         </div>
       </section>

@@ -141,7 +141,6 @@ export function LoginForm({
                       <Button
                         variant="outline"
                         size="sm"
-                        onClick={handleResendVerification}
                         className="mt-2 w-full"
                       >
                         Resend Verification Email

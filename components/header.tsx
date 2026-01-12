@@ -12,10 +12,13 @@ import {
 } from "@/components/ui/sheet"
 import Link from 'next/link'
 import { Separator } from './ui/separator'
+import { useState } from 'react'
+import MenuToCloseIcon from './menu-to-close-icon'
 const Header = () => {
     const MotionIconMenu = motion.create(IconMenu)
     const MotionButton = motion.create(Button)
 
+    const [open, setOpen] = useState(false)
 
     const navigationLinks = [
         { icon: IconHome, label: 'Home', href: '/' },
@@ -32,7 +35,10 @@ const Header = () => {
                 <Sheet>
                     <SheetTrigger asChild>
                         <div>
-                            <MotionIconMenu initial={{ rotate: '0deg' }} whileHover={{ rotate: '90deg' }} className='size-6' /></div>
+                            <motion.button initial="rest" whileHover="hover">
+                                <MenuToCloseIcon />
+                            </motion.button>
+                        </div>
                     </SheetTrigger>
 
                     <SheetContent side="left" className="w-[300px] sm:w-[350px] px-4">
@@ -60,7 +66,7 @@ const Header = () => {
 
                         {/* Action Buttons */}
                         <div className="space-y-3">
-                            <Link href="/vendor/register">
+                            <Link href="/register">
                                 <Button variant={'outline'} className='w-full'>Login / Register</Button>
                             </Link>
 
@@ -80,7 +86,7 @@ const Header = () => {
                 <Link href="/"><h1 className='text-4xl font-extrabold font-cinzel'>Drivaro</h1></Link>
             </div>
             <div>
-                <Link href="/vendor/register"><Button variant={'outline'}>Login / Register</Button></Link>
+                <Link href="/register"><Button variant={'outline'}>Login / Register</Button></Link>
             </div>
         </header>
     )

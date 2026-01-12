@@ -3,13 +3,13 @@ import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin } from 'luc
 import { IconBrandFacebook, IconBrandInstagram, IconBrandLinkedin, IconBrandX, IconGlobeFilled } from '@tabler/icons-react';
 
 const Footer = () => {
-  const currentYear = new Date().getFullYear();
+  const currentYear = '2026-2027';
 
   const footerLinks = {
     company: [
       { label: 'About Us', href: '/about' },
       { label: 'Our Fleet', href: '/cars' },
-      
+      { label: 'Become a Vendor', href: '/vendor/register' },
       { label: 'Contact', href: '/contact' }
     ],
     services: [
@@ -19,10 +19,10 @@ const Footer = () => {
       { label: 'Chauffeur Service', href: '#' }
     ],
     support: [
-      { label: 'Help Center', href: '#' },
-      { label: 'Terms of Service', href: '#' },
-      { label: 'Privacy Policy', href: '#' },
-      { label: 'FAQs', href: '#' }
+      { label: 'Help Center', href: '/help-center' },
+      { label: 'Terms of Service', href: '/terms&condition' },
+      { label: 'Privacy Policy', href: '/privacy-policy' },
+      { label: 'FAQs', href: '/faqs' }
     ]
   };
 
@@ -41,7 +41,7 @@ const Footer = () => {
   ];
 
   return (
-  
+
     <footer className="w-full border-t border-border bg-background">
       <section className="py-12 border-b-2  border-border">
         <div className="max-w-4xl mx-auto px-4 md:px-6 lg:px-8 text-center">
@@ -53,9 +53,9 @@ const Footer = () => {
           </p>
           <div className="flex items-center justify-center gap-2">
             <span className="text-sm text-muted-foreground">Portfolio:</span>
-            <a 
-              href="https://nehan.vercel.app" 
-              target="_blank" 
+            <a
+              href="https://nehan.vercel.app"
+              target="_blank"
               rel="noopener noreferrer"
               className="text-sm text-primary hover:underline font-medium"
             >
@@ -76,7 +76,7 @@ const Footer = () => {
               <p className="text-muted-foreground leading-relaxed max-w-sm">
                 Premium car rental service offering the finest vehicles for your journey. Experience luxury, comfort, and style.
               </p>
-              
+
               {/* Contact Info */}
               <div className="space-y-2 pt-2">
                 {contactInfo.map((item, index) => (
@@ -96,7 +96,7 @@ const Footer = () => {
               <ul className="space-y-3">
                 {footerLinks.company.map((link, index) => (
                   <li key={index}>
-                    <a 
+                    <a
                       href={link.href}
                       className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                     >
@@ -108,23 +108,7 @@ const Footer = () => {
             </div>
 
             {/* Services Links */}
-            <div>
-              <h4 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-4">
-                Services
-              </h4>
-              <ul className="space-y-3">
-                {footerLinks.services.map((link, index) => (
-                  <li key={index}>
-                    <a 
-                      href={link.href}
-                      className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                    >
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            
 
             {/* Support Links */}
             <div>
@@ -134,7 +118,7 @@ const Footer = () => {
               <ul className="space-y-3">
                 {footerLinks.support.map((link, index) => (
                   <li key={index}>
-                    <a 
+                    <a
                       href={link.href}
                       className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                     >

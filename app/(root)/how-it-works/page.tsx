@@ -245,7 +245,7 @@ const HowItWorksPage = () => {
               Ready to Get Started?
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Join thousands of users who trust RentDrive for their car rental needs
+              Join thousands of users who trust Drivaro for their car rental needs
             </p>
           </div>
 
