@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
 import { Loader2, Building2, FileText, Receipt, CheckCircle2 } from "lucide-react"
+import { authClient } from "@/lib/auth-client"
 
 interface VendorOnboardingFormData {
     businessName: string
@@ -73,14 +74,8 @@ export default function VendorOnboarding() {
         setLoading(true)
 
         try {
-            // Get userId from localStorage
-            const userId = localStorage.getItem("user_id")
-
-            if (!userId) {
-                toast.error("User session not found. Please log in again.")
-                router.push("/vendor/login")
-                return
-            }
+            const { data: sessionData } = await authClient.getSession()
+            const userId = sessionData?.session.userId
 
             const response = await fetch("/api/vendor/create-profile", {
                 method: "POST",

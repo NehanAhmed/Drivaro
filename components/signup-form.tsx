@@ -1,6 +1,5 @@
 'use client'
-import { useAppDispatch, useAppSelector } from '@/lib/store/hooks';
-import { setUserId } from '@/lib/store/slices/userSlice';
+
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -31,8 +30,6 @@ export function SignupForm({
   const [confirmPassword, setConfirmPassword] = useState("")
   const [loading, setLoading] = useState(false)
   const [googleLoading, setGoogleLoading] = useState(false)
-  const dispatch = useAppDispatch();
-  const { userId, isAuthenticated } = useAppSelector((state) => state.user);
 
   const router = useRouter();
 
@@ -65,31 +62,7 @@ export function SignupForm({
     return true
   }
 
-  const handleVendorProfileCreation = async (userId: string) => {
-    try {
-      const response = await fetch('/api/vendor/create-profile', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ userId }),
-      })
-
-      const data = await response.json()
-
-      if (!response.ok) {
-        console.error('Failed to create vendor profile:', data.message)
-        toast.error("Account created but vendor profile setup failed. Please contact support.")
-        return false
-      }
-
-      return true
-    } catch (error) {
-      console.error('Error creating vendor profile:', error)
-      toast.error("Failed to setup vendor profile. Please contact support.")
-      return false
-    }
-  }
+ 
 
   const handleEmailPasswordAuth = async (event: React.FormEvent) => {
     event.preventDefault()
@@ -122,9 +95,7 @@ export function SignupForm({
         return
       }
 
-      // Create vendor profile
-      localStorage.setItem('user_id', userId);
-      dispatch(setUserId(userId));
+
 
 
       toast.success("Account created successfully!")

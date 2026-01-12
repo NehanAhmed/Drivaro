@@ -20,10 +20,10 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { AlertCircle } from "lucide-react"
 import { useRouter } from "next/navigation"
 
-export function LoginForm({
+const LoginForm = ({
   className,
   ...props
-}: React.ComponentProps<"div">) {
+}: React.ComponentProps<"div">) => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
@@ -252,3 +252,4 @@ export function LoginForm({
     </div>
   )
 }
+export default LoginForm

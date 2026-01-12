@@ -169,7 +169,7 @@ const Page = async () => {
             <div>
                 {!cars.data || cars.data.length === 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        <Card className="w-full max-h-[600px] h-full bg-transparent border-dashed border-2 border-border">
+                        <Card className="aspect-square w-full max-h-[600px] h-full bg-transparent border-dashed border-2 border-border">
                             <CardContent className="flex flex-col items-center justify-center h-full py-10">
                                 <h1 className="text-xl font-semibold py-2">
                                     Get Started - Add Your Vehicle
