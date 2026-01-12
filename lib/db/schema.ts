@@ -181,8 +181,8 @@ export const car = pgTable("car", {
   locationLng: decimal("location_lng", { precision: 10, scale: 7 }),
   locationAddress: text("location_address"),
   status: carStatusEnum("status").default("available").notNull(),
-  features: jsonb("features"), // Array of strings: ["gps", "bluetooth", "backup_camera"]
-  images: jsonb("images"), // Array of URLs
+  features: jsonb('features').$type<string[]>(), // <- typed as string[]
+  images: jsonb('images').$type<string[]>(),
   isInstantBooking: boolean("is_instant_booking").default(false).notNull(),
   minimumRentalHours: integer("minimum_rental_hours").default(24).notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),

@@ -1,30 +1,17 @@
+import { db } from '@/lib/db'
+import { car } from '@/lib/db/schema'
 import React from 'react'
+import CarCollection from './car-collection'
 
-async function getCars() {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/vendor/car`,
-    { next: { revalidate: 3600 } }
-  )
+const CarDetailWrapper = async () => {
+    const cars = await db.select().from(car)
 
-  if (!res.ok) throw new Error('Failed to fetch cars')
+    return (
+        <>
+            <CarCollection cars={cars} />
 
-  const data = await res.json()
-
-  if (Array.isArray(data?.data)) return data.data
-  if (data?.data && typeof data.data === 'object') return [data.data]
-  if (Array.isArray(data)) return data
-  return []
-}
-
-
-const CarDetailWrapper = async() => {
-      const cars = await getCars()
-
-  return (
-    <>
-    
-    </>
-  )
+        </>
+    )
 }
 
 export default CarDetailWrapper

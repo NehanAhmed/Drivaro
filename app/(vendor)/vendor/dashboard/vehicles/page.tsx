@@ -1,9 +1,10 @@
+export const dynamic = 'force-dynamic'
+
 import { Card, CardContent } from "@/components/ui/card"
 import VendorCarCard, { IVendorCarCard } from "@/components/Vendor/car-vendor-card"
 import CreateCarModal from "@/components/Vendor/create-car-modal"
 import { getVendorIdByUserId } from "@/hooks/getVendorIdByUserId"
 import { auth } from "@/lib/auth"
-import { cacheLife } from "next/cache"
 import { headers } from "next/headers"
 
 interface CarsResponse {
