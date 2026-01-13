@@ -1,9 +1,10 @@
+export const dynamic = 'force-dynamic'
+
 import { Card, CardContent } from "@/components/ui/card"
 import VendorCarCard, { IVendorCarCard } from "@/components/Vendor/car-vendor-card"
 import CreateCarModal from "@/components/Vendor/create-car-modal"
 import { getVendorIdByUserId } from "@/hooks/getVendorIdByUserId"
 import { auth } from "@/lib/auth"
-import { cacheLife } from "next/cache"
 import { headers } from "next/headers"
 
 interface CarsResponse {
@@ -112,7 +113,7 @@ const Page = async () => {
         const response = await fetch(
             `${process.env.NEXT_PUBLIC_BASE_URL}/api/vendor/${vendorId}/car`,
             {
-                cache: 'force-cache',
+                cache: 'no-cache',
                 headers: {
                     'Content-Type': 'application/json',
                 }

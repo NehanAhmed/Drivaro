@@ -79,7 +79,7 @@ function handleError(error: unknown): NextResponse<ApiErrorResponse> {
         return NextResponse.json(
             {
                 error: "Validation failed",
-                details: error.errors,
+                details: error.message,
             },
             { status: 400 }
         );

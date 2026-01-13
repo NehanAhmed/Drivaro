@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { stripe } from '@/lib/stripe';
+import { stripe } from '@/lib/stripe/server';
 import { calculateBookingPrice } from '@/lib/pricing';
 import { db } from '@/lib/db';
 import { car, vendor, booking } from '@/lib/db/schema';

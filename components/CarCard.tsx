@@ -2,10 +2,11 @@
 import React from 'react'
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import Image from 'next/image';
-import { IconAutomaticGearbox, IconClock, IconEye, IconGasStation, IconMan, IconManualGearbox } from '@tabler/icons-react';
+import { IconAutomaticGearbox, IconCheck, IconClock, IconEye, IconGasStation, IconMan, IconManualGearbox } from '@tabler/icons-react';
 import { Button } from './ui/button';
 import Link from 'next/link';
 import { motion } from 'motion/react';
+import { Badge } from './ui/badge';
 
 export interface ICarCard {
     id: string;
@@ -21,17 +22,17 @@ export interface ICarCard {
     transmission: string;
     fuelType: string;
     seats: number;
-    dailyRate: number;
-    weeklyRate?: number;
-    monthlyRate?: number;
+    dailyRate: string;
+    weeklyRate?: string | null;
+    monthlyRate?: string | null;
     mileageLimitPerDay: number;
-    extraMileageCost: number;
-    locationLat?: number;
-    locationLng?: number;
-    locationAddress?: string;
+    extraMileageCost: string;
+    locationLat?: string | null;
+    locationLng?: string | null;
+    locationAddress?: string | null;
     status: string;
-    features?: string[];
-    images?: string[];
+    images?: string[] | null;
+    features?: string[] | null;
     isInstantBooking: boolean;
     minimumRentalHours: number;
     createdAt: Date | string;
@@ -43,7 +44,13 @@ const CarCard = ({ car }: { car: ICarCard }) => {
     return (
         <MotionCard layoutId={car.id} className='w-full max-w-2xl py-0 '>
             <CardHeader className='px-0 py-0'>
-                <Image src={car.images?.[0] || '/default-car-image.jpg'} alt={`${car.make} ${car.model}`} width={400} height={100} className='object-cover object-center rounded-tl-2xl rounded-tr-2xl aspect-square'/>
+                {car.isInstantBooking ? (
+                    <Badge variant={'secondary'}>
+                        Instant Booking <IconCheck />
+                    </Badge>
+
+                ) : (null)}
+                <Image src={car.images?.[0] || '/default-car-image.jpg'} alt={`${car.make} ${car.model}`} width={400} height={100} className='object-cover object-center rounded-tl-2xl rounded-tr-2xl aspect-square' />
             </CardHeader>
             <CardContent className='py-4'>
                 <h2 className='font-semibold text-lg text-start' >{car.make} {car.model}</h2>

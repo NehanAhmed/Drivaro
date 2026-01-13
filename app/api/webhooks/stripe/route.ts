@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { headers } from 'next/headers';
-import { stripe } from '@/lib/stripe';
+import { stripe } from '@/lib/stripe/server';
 import { db } from '@/lib/db';
 import { booking, transaction, vendor, availabilityBlock } from '@/lib/db/schema';
 import { eq } from 'drizzle-orm';

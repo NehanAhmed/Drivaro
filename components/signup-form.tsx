@@ -30,6 +30,7 @@ export function SignupForm({
   const [confirmPassword, setConfirmPassword] = useState("")
   const [loading, setLoading] = useState(false)
   const [googleLoading, setGoogleLoading] = useState(false)
+  
 
   const router = useRouter();
 
@@ -95,7 +96,8 @@ export function SignupForm({
         return
       }
 
-
+      // Create vendor profile
+      localStorage.setItem('user_id', userId);
 
 
       toast.success("Account created successfully!")

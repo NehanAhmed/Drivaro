@@ -1,5 +1,7 @@
+export const dynamic = 'force-dynamic'
+
 import { NextRequest, NextResponse } from 'next/server';
-import { stripe } from '@/lib/stripe';
+import { stripe } from '@/lib/stripe/server';
 import { db } from '@/lib/db';
 import { booking } from '@/lib/db/schema';
 import { eq } from 'drizzle-orm';
