@@ -1,12 +1,49 @@
 'use client'
 import { ICarCard } from "@/components/CarCard";
+import { CheckoutButton } from "@/components/checkout-button";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { useState } from "react";
 
-// Booking Form Component (Client)
-export const BookingForm = ({ car }: { car:ICarCard }) => {
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
+
+export interface Vendor {
+  id: string;
+  userId: string;
+
+  businessName: string;
+  businessLicenseNumber: string;
+  taxId: string;
+
+  status: "pending" | "approved" | "rejected" | "suspended";
+
+  commissionRate: string;     // decimal → string
+  totalEarnings: string;      // decimal → string
+
+  bankAccountDetails: unknown;  // Changed from Record<string, any> | null
+
+  approvedAt: Date | null;
+  approvedBy: string | null;
+
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+interface checkoutData {
+  carId:string;
+  startDate:string;
+  endDate:string;
+  pickupLocation:string;
+  dropoffLocation:string;
+  dailyRate:string ;
+  weeklyRate:string | undefined | null;
+  monthlyRate:string | undefined | null;
+  commissionRate:string; 
+}
+export const BookingForm = ({ car, vendor }: { car: ICarCard, vendor: Vendor }) => {
+  const [startDate, setStartDate] = useState('2026-1-14');
+  const [endDate, setEndDate] = useState('2026-1-14');
+  const [pickupLocation, setPickupLocation] = useState('');
+  const [dropoffLocation, setdropoffLocation] = useState('');
   const [days, setDays] = useState(0);
 
   const calculateTotal = () => {
@@ -15,7 +52,17 @@ export const BookingForm = ({ car }: { car:ICarCard }) => {
     if (days >= 7 && car.weeklyRate) return car.weeklyRate;
     return (parseFloat(car.dailyRate) * days).toFixed(2);
   };
-
+  const checkoutData:checkoutData = {
+    carId: car.id,
+    startDate: startDate,
+    endDate: endDate,
+    pickupLocation: pickupLocation,
+    dropoffLocation: dropoffLocation,
+    dailyRate: car.dailyRate,
+    weeklyRate: car.weeklyRate,
+    monthlyRate: car.monthlyRate,
+    commissionRate: vendor.commissionRate
+  }
   return (
     <div className="sticky top-6 space-y-6 rounded-2xl border bg-card p-6 shadow-sm">
       <div className="space-y-2">
@@ -33,11 +80,11 @@ export const BookingForm = ({ car }: { car:ICarCard }) => {
       <div className="space-y-4">
         <div className="space-y-2">
           <label className="text-sm font-medium">Pickup Date</label>
-          <input
+          <Input
             type="date"
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
-            className="flex h-11 w-full rounded-lg border border-input bg-background px-3 py-2 text-sm transition-colors hover:border-ring focus:border-ring focus:outline-none"
+
           />
         </div>
 
@@ -70,10 +117,8 @@ export const BookingForm = ({ car }: { car:ICarCard }) => {
       <Button className="w-full rounded-lg bg-primary px-4 py-3 font-semibold text-primary-foreground transition-colors hover:bg-primary/90">
         {car.isInstantBooking ? 'Book Instantly' : 'Request to Book'}
       </Button>
+      <CheckoutButton {...checkoutData} />
 
-      <p className="text-center text-xs text-muted-foreground">
-        You won't be charged yet
-      </p>
     </div>
   );
 };

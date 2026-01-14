@@ -1,10 +1,11 @@
 import { ImageGallery } from '@/components/Cars/details/ImageGallery';
 import { BookingForm } from '@/components/Cars/details/BookingForm';
 import { db } from '@/lib/db';
-import { car } from '@/lib/db/schema';
+import { car, vendor } from '@/lib/db/schema';
 import { eq } from 'drizzle-orm';
 import { IconCheck, IconClock, IconGasStation, IconGauge, IconMapPin, IconSettings, IconStar, IconUsers } from '@tabler/icons-react';
 import { Badge } from '@/components/ui/badge';
+import { calculateBookingPrice } from '@/lib/pricing';
 
 
 
@@ -14,8 +15,20 @@ import { Badge } from '@/components/ui/badge';
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params
-    const [carDetails] = await db.select().from(car).where(eq(car.slug, slug))
+    const carDetails = await db
+        .select({
+            car: car,
+            vendor: vendor,
+        })
+        .from(car)
+        .innerJoin(vendor, eq(car.vendorId, vendor.id))
+        .where(eq(car.slug, slug))
+        .limit(1);
 
+
+    const { car: carData, vendor: vendorData } = carDetails[0];
+
+   
 
     return (
 
@@ -24,15 +37,15 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                 {/* Header */}
                 <div className="mb-8 space-y-2">
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <span>{carDetails.category}</span>
+                        <span>{carData.category}</span>
                         <span>·</span>
-                        <span>{carDetails.locationAddress}</span>
-                        
+                        <span>{carData.locationAddress}</span>
+
 
                     </div>
                     <h1 className="text-4xl font-bold tracking-tight">
-                        {carDetails.year} {carDetails.make} {carDetails.model}
-                        {carDetails.isInstantBooking ? (
+                        {carData.year} {carData.make} {carData.model}
+                        {carData.isInstantBooking ? (
                             <>
                                 <span>·</span>
                                 <Badge variant={'secondary'}>Instant Booking</Badge>
@@ -44,7 +57,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                             <IconStar className="h-4 w-4 fill-accent text-accent" />
 
                         </div>
-                        {carDetails.isInstantBooking && (
+                        {carData.isInstantBooking && (
                             <span className="inline-flex items-center gap-1 rounded-full bg-accent/10 px-3 py-1 text-xs font-medium text-accent-foreground">
                                 <IconCheck className="h-3 w-3" />
                                 Instant Booking
@@ -56,7 +69,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                 <div className="grid gap-8 lg:grid-cols-3">
                     {/* Left Column - Images & Details */}
                     <div className="space-y-8 lg:col-span-2">
-                        <ImageGallery images={carDetails.images || []} />
+                        <ImageGallery images={carData.images || []} />
 
                         {/* Specifications */}
                         <div className="space-y-6 rounded-2xl border bg-card p-6">
@@ -68,7 +81,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                                     </div>
                                     <div>
                                         <p className="text-sm text-muted-foreground">Transmission</p>
-                                        <p className="font-medium capitalize">{carDetails.transmission}</p>
+                                        <p className="font-medium capitalize">{carData.transmission}</p>
                                     </div>
                                 </div>
 
@@ -78,7 +91,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                                     </div>
                                     <div>
                                         <p className="text-sm text-muted-foreground">Fuel Type</p>
-                                        <p className="font-medium capitalize">{carDetails.fuelType}</p>
+                                        <p className="font-medium capitalize">{carData.fuelType}</p>
                                     </div>
                                 </div>
 
@@ -88,7 +101,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                                     </div>
                                     <div>
                                         <p className="text-sm text-muted-foreground">Seats</p>
-                                        <p className="font-medium">{carDetails.seats} Passengers</p>
+                                        <p className="font-medium">{carData.seats} Passengers</p>
                                     </div>
                                 </div>
 
@@ -98,7 +111,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                                     </div>
                                     <div>
                                         <p className="text-sm text-muted-foreground">Mileage Limit</p>
-                                        <p className="font-medium">{carDetails.mileageLimitPerDay} mi/day</p>
+                                        <p className="font-medium">{carData.mileageLimitPerDay} mi/day</p>
                                     </div>
                                 </div>
 
@@ -108,7 +121,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                                     </div>
                                     <div>
                                         <p className="text-sm text-muted-foreground">Min. Rental</p>
-                                        <p className="font-medium">{carDetails.minimumRentalHours}h</p>
+                                        <p className="font-medium">{carData.minimumRentalHours}h</p>
                                     </div>
                                 </div>
 
@@ -118,7 +131,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                                     </div>
                                     <div>
                                         <p className="text-sm text-muted-foreground">Color</p>
-                                        <p className="font-medium">{carDetails.color}</p>
+                                        <p className="font-medium">{carData.color}</p>
                                     </div>
                                 </div>
                             </div>
@@ -128,7 +141,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                         <div className="space-y-6 rounded-2xl border bg-card p-6">
                             <h2 className="text-2xl font-bold">Features</h2>
                             <div className="grid gap-3 sm:grid-cols-2">
-                                {carDetails.features?.map((feature, idx) => (
+                                {carData.features?.map((feature, idx) => (
                                     <div key={idx} className="flex items-center gap-2">
                                         <IconCheck className="h-4 w-4 text-accent" />
                                         <span className="text-sm">{feature}</span>
@@ -143,15 +156,15 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                             <div className="space-y-3 text-sm">
                                 <div className="flex justify-between border-b pb-3">
                                     <span className="text-muted-foreground">Daily mileage limit</span>
-                                    <span className="font-medium">{carDetails.mileageLimitPerDay} miles</span>
+                                    <span className="font-medium">{carData.mileageLimitPerDay} miles</span>
                                 </div>
                                 <div className="flex justify-between border-b pb-3">
                                     <span className="text-muted-foreground">Extra mileage cost</span>
-                                    <span className="font-medium">${carDetails.extraMileageCost}/mile</span>
+                                    <span className="font-medium">${carData.extraMileageCost}/mile</span>
                                 </div>
                                 <div className="flex justify-between border-b pb-3">
                                     <span className="text-muted-foreground">Minimum rental period</span>
-                                    <span className="font-medium">{carDetails.minimumRentalHours} hours</span>
+                                    <span className="font-medium">{carData.minimumRentalHours} hours</span>
                                 </div>
                                 <div className="flex justify-between">
                                     <span className="text-muted-foreground">Hosted by</span>
@@ -162,7 +175,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
 
                     {/* Right Column - Booking Form */}
                     <div className="lg:col-span-1">
-                        <BookingForm car={carDetails} />
+                        <BookingForm vendor={vendorData} car={carData} />
                     </div>
                 </div>
             </div>
