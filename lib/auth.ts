@@ -3,8 +3,22 @@ import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { db } from "@/lib/db";
 import * as schema from "@/lib/db/schema";
+import { customSession } from "better-auth/plugins";
+import { findUserRoles } from "./actions/findUserRoles";
 
 export const auth = betterAuth({
+  plugins: [
+    customSession(async ({ user, session }) => {
+      const roles = findUserRoles(session.userId);
+      return {
+        roles,
+        user: {
+          ...user,
+        },
+        session
+      };
+    }),
+  ],
   database: drizzleAdapter(db, {
     provider: "pg",
     schema: {
@@ -15,7 +29,7 @@ export const auth = betterAuth({
     },
   }),
 
-  
+
 
   // ============================================
   // EMAIL AND PASSWORD CONFIGURATION
@@ -27,7 +41,7 @@ export const auth = betterAuth({
     requireEmailVerification: false, // Set to true to enable
 
     // Password reset email function
-    
+
   },
 
   // ============================================
