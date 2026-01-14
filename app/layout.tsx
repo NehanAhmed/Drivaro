@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Cinzel, Cinzel_Decorative, Economica, Geist, Geist_Mono, Hanken_Grotesk } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
+import Script from "next/script";
 
 
 const cinzel = Cinzel_Decorative({
@@ -27,7 +28,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+
     <html lang="en">
+      
       <body
         className={`font-hanken-grotesk  antialiased ${cinzel.variable} ${hankenGrotesk.variable}`}
       >

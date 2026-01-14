@@ -28,7 +28,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
 
     const { car: carData, vendor: vendorData } = carDetails[0];
 
-   
+
 
     return (
 
