@@ -80,7 +80,7 @@ export function UserSignupForm({
                 email: email.trim(),
                 password: password,
                 name: name.trim(),
-                callbackURL: `${window.location.origin}/dashboard`,
+                callbackURL: `${window.location.origin}/`,
             })
 
             if (response.error) {
@@ -122,7 +122,7 @@ export function UserSignupForm({
         try {
             const response = await authClient.signIn.social({
                 provider: "google",
-                callbackURL: `${window.location.origin}/dashboard`,
+                callbackURL: `${window.location.origin}/`,
             })
 
             if (response.error) {

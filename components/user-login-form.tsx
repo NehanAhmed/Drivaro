@@ -61,7 +61,7 @@ export function UserLoginForm({
                 {
                     email: email.trim(),
                     password: password,
-                    callbackURL: `${window.location.origin}/dashboard`,
+                    callbackURL: `${window.location.origin}/`,
                 },
                 {
                     onError: (ctx) => {
@@ -83,7 +83,7 @@ export function UserLoginForm({
             }
 
             toast.success("Signed in successfully!")
-            router.push("/dashboard")
+            router.push("/")
             setEmail("")
             setPassword("")
         } catch (error) {

@@ -3,6 +3,7 @@ import { Cinzel, Cinzel_Decorative, Economica, Geist, Geist_Mono, Hanken_Grotesk
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import Script from "next/script";
+import { ThemeProvider } from "@/components/theme-provider";
 
 
 const cinzel = Cinzel_Decorative({
@@ -29,14 +30,21 @@ export default function RootLayout({
 }>) {
   return (
 
-    <html lang="en">
-      
+    <html lang="en" suppressHydrationWarning>
+
       <body
         className={`font-hanken-grotesk  antialiased ${cinzel.variable} ${hankenGrotesk.variable}`}
       >
 
-        {children}
-        <Toaster position="top-right" closeButton expand richColors />
+        <ThemeProvider
+          attribute="class"
+
+          enableSystem={false}
+          disableTransitionOnChange
+
+        >
+          {children}
+        </ThemeProvider>        <Toaster position="top-right" closeButton expand richColors />
 
       </body>
     </html>
