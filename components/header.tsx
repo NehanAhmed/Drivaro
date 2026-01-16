@@ -21,7 +21,8 @@ import { Separator } from './ui/separator'
 import MenuToCloseIcon from './menu-to-close-icon'
 import { auth } from '@/lib/auth'
 import { headers } from 'next/headers'
-
+import { authClient } from '@/lib/auth-client'
+import { redirect } from 'next/navigation'
 // Define navigation structure with proper typing
 const NAVIGATION_LINKS = [
     { icon: IconHome, label: 'Home', href: '/' },
@@ -50,7 +51,19 @@ function getUserInitials(name?: string | null, email?: string | null): string {
 function ProfileDropdown({ user }: { user: { name?: string | null; email?: string | null; image?: string | null } }) {
     const initials = getUserInitials(user.name, user.email);
     const displayName = user.name || user.email || 'User';
-
+    const handleLogout = async () => {
+        try {
+            const response = await authClient.signOut({
+                fetchOptions: {
+                    onSuccess: () => {
+                        redirect('/login')
+                    }
+                }
+            })
+        } catch (error: any) {
+            throw new Error(error)
+        }
+    }
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -86,13 +99,11 @@ function ProfileDropdown({ user }: { user: { name?: string | null; email?: strin
                     </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem asChild >
-                    <form action="/api/auth/signout" method="POST" className="w-full">
-                        <button type="submit" className="w-full flex items-center cursor-pointer">
-                            <IconLogout className="mr-2 h-4 w-4" />
-                            <span>Log out</span>
-                        </button>
-                    </form>
+                <DropdownMenuItem asChild className=''>
+                    <button onClick={handleLogout} className="w-full text-start flex items-center justify-start  cursor-pointer">
+                        <IconLogout className="mr-2 h-4 w-4 " />
+                        <p className=''>Log out</p>
+                    </button>
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
@@ -100,10 +111,25 @@ function ProfileDropdown({ user }: { user: { name?: string | null; email?: strin
 }
 
 // Mobile Navigation Component
-function MobileNav({ isAuthenticated, user }: { 
-    isAuthenticated: boolean; 
-    user?: { name?: string | null; email?: string | null; image?: string | null } | null 
+function MobileNav({ isAuthenticated, user }: {
+    isAuthenticated: boolean;
+
+    user?: { name?: string | null; email?: string | null; image?: string | null } | null
+
 }) {
+    const handleLogout = async () => {
+        try {
+            const response = await authClient.signOut({
+                fetchOptions: {
+                    onSuccess: () => {
+                        redirect('/login')
+                    }
+                }
+            })
+        } catch (error: any) {
+            throw new Error(error)
+        }
+    }
     return (
         <Sheet>
             <SheetTrigger asChild>
@@ -139,16 +165,16 @@ function MobileNav({ isAuthenticated, user }: {
                 <div className="space-y-3">
                     {isAuthenticated ? (
                         <div className="flex flex-col space-y-2">
-                            <Link href="/dashboard">
+                            <Link href="/bookings">
                                 <Button variant="outline" className="w-full">
-                                    Dashboard
+                                    Bookings
                                 </Button>
                             </Link>
-                            <form action="/api/auth/signout" method="POST" className="w-full">
-                                <Button type="submit" variant="ghost" className="w-full">
-                                    Log out
-                                </Button>
-                            </form>
+
+                            <Button onClick={handleLogout} type="submit" variant="ghost" className="w-full">
+                                Log out
+                            </Button>
+
                         </div>
                     ) : (
                         <Link href="/register">
@@ -191,8 +217,8 @@ const Header = async () => {
         <header className='w-full px-10 py-6 font-hanken-grotesk flex items-center justify-around'>
             {/* Mobile Menu */}
             <div>
-                <MobileNav 
-                    isAuthenticated={isAuthenticated} 
+                <MobileNav
+                    isAuthenticated={isAuthenticated}
                     user={session?.user}
                 />
             </div>

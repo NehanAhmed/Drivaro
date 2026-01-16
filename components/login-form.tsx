@@ -229,9 +229,9 @@ const LoginForm = ({
             <Image
               width={1000}
               height={1000}
-              src="/placeholder.svg"
+              src="/login-page-image.svg"
               alt="Login illustration"
-              className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+              className="absolute inset-0 object-center h-full w-full object-contain dark:brightness-[0.2] dark:grayscale"
               priority
             />
           </div>

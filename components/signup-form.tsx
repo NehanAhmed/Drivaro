@@ -261,9 +261,9 @@ export function SignupForm({
             <Image
               width={1000}
               height={1000}
-              src="/placeholder.svg"
+              src="/signup-page-image.svg"
               alt="Signup illustration"
-              className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+              className="absolute inset-0 object-center h-full w-full object-contain dark:brightness-[0.2] dark:grayscale"
               priority
             />
           </div>
