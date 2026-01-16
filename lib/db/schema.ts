@@ -54,7 +54,7 @@ export const user = pgTable("user", {
   profileImageUrl: text("profile_image_url"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at")
-    .defaultNow()
+    .defaultNow() 
     .$onUpdate(() => new Date())
     .notNull(),
 }, (table) => [

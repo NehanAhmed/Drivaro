@@ -23,6 +23,7 @@ import { auth } from '@/lib/auth'
 import { headers } from 'next/headers'
 import { authClient } from '@/lib/auth-client'
 import { redirect } from 'next/navigation'
+import LogoutButton from './logoutButton'
 // Define navigation structure with proper typing
 const NAVIGATION_LINKS = [
     { icon: IconHome, label: 'Home', href: '/' },
@@ -99,11 +100,8 @@ function ProfileDropdown({ user }: { user: { name?: string | null; email?: strin
                     </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem asChild className=''>
-                    <button onClick={handleLogout} className="w-full text-start flex items-center justify-start  cursor-pointer">
-                        <IconLogout className="mr-2 h-4 w-4 " />
-                        <p className=''>Log out</p>
-                    </button>
+                <DropdownMenuItem  className='px-2.5'>
+                    <LogoutButton />
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
@@ -117,19 +115,7 @@ function MobileNav({ isAuthenticated, user }: {
     user?: { name?: string | null; email?: string | null; image?: string | null } | null
 
 }) {
-    const handleLogout = async () => {
-        try {
-            const response = await authClient.signOut({
-                fetchOptions: {
-                    onSuccess: () => {
-                        redirect('/login')
-                    }
-                }
-            })
-        } catch (error: any) {
-            throw new Error(error)
-        }
-    }
+
     return (
         <Sheet>
             <SheetTrigger asChild>
@@ -171,9 +157,7 @@ function MobileNav({ isAuthenticated, user }: {
                                 </Button>
                             </Link>
 
-                            <Button onClick={handleLogout} type="submit" variant="ghost" className="w-full">
-                                Log out
-                            </Button>
+                            <LogoutButton shadcn={true} />
 
                         </div>
                     ) : (

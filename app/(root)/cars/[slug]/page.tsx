@@ -1,16 +1,32 @@
 import { ImageGallery } from '@/components/Cars/details/ImageGallery';
 import { BookingForm } from '@/components/Cars/details/BookingForm';
 import { db } from '@/lib/db';
-import { car, vendor } from '@/lib/db/schema';
+import { car, user, vendor } from '@/lib/db/schema';
 import { eq } from 'drizzle-orm';
 import { IconCheck, IconClock, IconGasStation, IconGauge, IconMapPin, IconSettings, IconStar, IconUsers } from '@tabler/icons-react';
 import { Badge } from '@/components/ui/badge';
 import { calculateBookingPrice } from '@/lib/pricing';
+import Image from 'next/image';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 
 
 
-
+function getUserInitials(name?: string | null, email?: string | null): string {
+    if (name) {
+        const names = name.trim().split(' ');
+        if (names.length >= 2) {
+            return `${names[0][0]}${names[names.length - 1][0]}`.toUpperCase();
+        }
+        return name.slice(0, 2).toUpperCase();
+    }
+    if (email) {
+        return email.slice(0, 2).toUpperCase();
+    }
+    return 'U';
+}
 
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
@@ -28,7 +44,13 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
 
     const { car: carData, vendor: vendorData } = carDetails[0];
 
+    const [userVendor] = await db
+        .select()
+        .from(user)
+        .where(eq(user.id, vendorData.userId))
 
+
+    const initials = getUserInitials(userVendor.name, userVendor.email);
 
     return (
 
@@ -170,6 +192,83 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                                     <span className="text-muted-foreground">Hosted by</span>
                                 </div>
                             </div>
+                        </div>
+                        <div className='space-y-6 rounded-2xl border bg-card p-6'>
+                            <h2 className='text-2xl font-bold'>Hosted by</h2>
+
+                            {/* Vendor Header */}
+                            <div className="flex items-start gap-4">
+                                <div className="flex-shrink-0">
+                                    {userVendor.profileImageUrl ? (
+                                        <Image
+                                            src={userVendor.profileImageUrl}
+                                            alt='vendor profile image'
+                                            width={80}
+                                            height={80}
+                                            className='rounded-full object-cover object-center border-2 border-muted'
+                                        />
+                                    ) : (
+                                        <Avatar className="h-20 w-20 border-2 border-muted">
+                                            <AvatarImage src={userVendor.image || undefined} alt='profile Avatar' />
+                                            <AvatarFallback className="text-xl">{initials}</AvatarFallback>
+                                        </Avatar>
+                                    )}
+                                </div>
+
+                                <div className="flex-1 space-y-1">
+                                    <h3 className='text-xl font-bold'>{userVendor.name}</h3>
+                                    <p className="text-sm text-muted-foreground">{vendorData.businessName}</p>
+                                    <div className="flex items-center gap-2 pt-1">
+                                        {vendorData.status === 'approved' && (
+                                            <Badge variant="secondary" className="text-xs">
+                                                <IconCheck className="h-3 w-3 mr-1" />
+                                                Verified Vendor
+                                            </Badge>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Vendor Stats */}
+                            <div className="grid grid-cols-2 gap-4 pt-2">
+                                <div className="space-y-1">
+                                    <p className="text-sm text-muted-foreground">Member since</p>
+                                    <p className="font-medium">
+                                        {new Date(vendorData.createdAt).toLocaleDateString('en-US', {
+                                            month: 'short',
+                                            year: 'numeric'
+                                        })}
+                                    </p>
+                                </div>
+
+                                <div className="space-y-1">
+                                    <p className="text-sm text-muted-foreground">Response time</p>
+                                    <p className="font-medium">Within 1 hour</p>
+                                </div>
+                            </div>
+
+                            {/* Contact Information */}
+                            <div className="space-y-3 pt-2 border-t">
+                                <div className="flex items-center gap-2 text-sm">
+                                    <IconMapPin className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                                    <span className="text-muted-foreground">Located in</span>
+                                    <span className="font-medium">{carData.locationAddress}</span>
+                                </div>
+                            </div>
+
+                            {/* Additional Info */}
+                            <div className="space-y-2 pt-2 border-t">
+                                <p className="text-sm text-muted-foreground">
+                                    Professional car rental service with verified documentation and reliable support.
+                                </p>
+                            </div>
+
+                            {/* Contact Button */}
+                            <Link href={`/vendor/${userVendor.name}`} >
+                                <Button variant="outline" className="w-full">
+                                    Contact Vendor
+                                </Button>
+                            </Link>
                         </div>
                     </div>
 
