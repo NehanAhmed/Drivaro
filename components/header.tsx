@@ -88,7 +88,7 @@ function ProfileDropdown({ user }: { user: { name?: string | null; email?: strin
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
-                    <Link href="/dashboard" className="cursor-pointer flex items-center">
+                    <Link href="/" className="cursor-pointer flex items-center">
                         <IconCalendar className="mr-2 h-4 w-4" />
                         <span>Bookings</span>
                     </Link>
@@ -100,7 +100,7 @@ function ProfileDropdown({ user }: { user: { name?: string | null; email?: strin
                     </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem  className='px-2.5'>
+                <DropdownMenuItem className='px-2.5'>
                     <LogoutButton />
                 </DropdownMenuItem>
             </DropdownMenuContent>
@@ -109,9 +109,9 @@ function ProfileDropdown({ user }: { user: { name?: string | null; email?: strin
 }
 
 // Mobile Navigation Component
-function MobileNav({ isAuthenticated, user }: {
+function MobileNav({ isAuthenticated, isUserCostumer, user }: {
     isAuthenticated: boolean;
-
+    isUserCostumer: boolean
     user?: { name?: string | null; email?: string | null; image?: string | null } | null
 
 }) {
@@ -149,7 +149,7 @@ function MobileNav({ isAuthenticated, user }: {
 
                 {/* Action Buttons */}
                 <div className="space-y-3">
-                    {isAuthenticated ? (
+                    {isAuthenticated && isUserCostumer ? (
                         <div className="flex flex-col space-y-2">
                             <Link href="/bookings">
                                 <Button variant="outline" className="w-full">
@@ -195,13 +195,14 @@ const Header = async () => {
     // Fixed: Changed 'roles' to 'role' (assuming single role) and fixed typo 'costumer' to 'customer'
     // Also using optional chaining and proper boolean logic
     const isAuthenticated = !!session?.user;
-    const isCustomer = await session?.roles === 'customer';
+    const isCustomer = await session?.roles === 'customer' ? true : false;
 
     return (
         <header className='w-full px-10 py-6 font-hanken-grotesk flex items-center justify-around'>
             {/* Mobile Menu */}
             <div>
                 <MobileNav
+                    isUserCostumer={isCustomer}
                     isAuthenticated={isAuthenticated}
                     user={session?.user}
                 />

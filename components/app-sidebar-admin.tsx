@@ -12,7 +12,7 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { IconBug, IconCalendar, IconCar, IconHome, IconUser } from "@tabler/icons-react"
+import { IconBug, IconCalendar, IconCar, IconHome, IconPaperclip, IconReport, IconSettings, IconUser } from "@tabler/icons-react"
 import Link from "next/link"
 
 // Menu items.
@@ -23,11 +23,45 @@ const items = [
         icon: IconHome,
     },
     {
+        title: "Bookings",
+        url: "/admin/dashboard/bookings",
+        icon: IconCalendar,
+    },
+    {
         title: "Vendors",
         url: "/admin/dashboard/vendors",
-            icon: IconUser,
+        icon: IconUser,
     },
-    
+    {
+        title: "Users",
+        url: "/admin/dashboard/users",
+        icon: IconUser,
+    },
+    {
+        title: "Vehicles",
+        url: "/admin/dashboard/vehicles",
+        icon: IconCar,
+    },
+    {
+        title: "Documents",
+        url: "/admin/dashboard/documents",
+        icon: IconPaperclip,
+    },
+
+]
+
+const navFooter = [
+    {
+        title: "Settings",
+        url: "/admin/dashboard/settings",
+        icon: IconSettings,
+    },
+    {
+        title: "Reports",
+        url: "/admin/dashboard/reports",
+        icon: IconReport,
+    },
+
 
 ]
 
@@ -63,7 +97,19 @@ export function AppSidebar() {
                     </SidebarGroupContent>
                 </SidebarGroup>
             </SidebarContent>
-            
+            <SidebarFooter>
+                <SidebarMenu >
+                    {navFooter.map((val) => (
+                        <Link href={val.url} key={val.title}>
+                            <SidebarMenuItem>
+                                <SidebarMenuButton>
+                                    <val.icon />
+                                    <span>{val.title}</span></SidebarMenuButton>
+                            </SidebarMenuItem>
+                        </Link>
+                    ))}
+                </SidebarMenu>
+            </SidebarFooter>
         </Sidebar>
     )
 }
