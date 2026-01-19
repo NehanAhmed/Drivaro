@@ -1,4 +1,16 @@
-import { IconCar, IconHome, IconUser, IconLogout, IconSettings, IconCalendar } from '@tabler/icons-react'
+import { 
+    CarFront, 
+    Home, 
+    Info, 
+    Phone, 
+    CalendarCheck, 
+    Settings, 
+    LogOut, 
+    User, 
+    Menu, 
+    X,
+    LayoutDashboard
+} from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
     Sheet,
@@ -6,6 +18,7 @@ import {
     SheetHeader,
     SheetTitle,
     SheetTrigger,
+    SheetClose
 } from "@/components/ui/sheet"
 import {
     DropdownMenu,
@@ -17,23 +30,19 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import Link from 'next/link'
-import { Separator } from './ui/separator'
-import MenuToCloseIcon from './menu-to-close-icon'
 import { auth } from '@/lib/auth'
 import { headers } from 'next/headers'
-import { authClient } from '@/lib/auth-client'
-import { redirect } from 'next/navigation'
-import LogoutButton from './logoutButton'
-// Define navigation structure with proper typing
+import LogoutButton from './logoutButton' // Assuming this handles the client-side authClient.signOut
+
+// Navigation Configuration
 const NAVIGATION_LINKS = [
-    { icon: IconHome, label: 'Home', href: '/' },
-    { icon: IconCar, label: 'Our Fleet', href: '/cars' },
-    { icon: IconHome, label: 'About Us', href: '/about' },
-    { icon: IconHome, label: 'How It Works', href: '/how-it-works' },
-    { icon: IconHome, label: 'Contact', href: '/contact' },
+    { icon: Home, label: 'Home', href: '/' },
+    { icon: CarFront, label: 'The Fleet', href: '/cars' },
+    { icon: Info, label: 'About', href: '/about' },
+    { icon: Phone, label: 'Contact', href: '/contact' },
 ] as const;
 
-// Helper to get user initials
+// Helper: Get User Initials
 function getUserInitials(name?: string | null, email?: string | null): string {
     if (name) {
         const names = name.trim().split(' ');
@@ -48,183 +57,216 @@ function getUserInitials(name?: string | null, email?: string | null): string {
     return 'U';
 }
 
-// Profile Dropdown Component
+// Component: Profile Dropdown
 function ProfileDropdown({ user }: { user: { name?: string | null; email?: string | null; image?: string | null } }) {
     const initials = getUserInitials(user.name, user.email);
-    const displayName = user.name || user.email || 'User';
-    const handleLogout = async () => {
-        try {
-            const response = await authClient.signOut({
-                fetchOptions: {
-                    onSuccess: () => {
-                        redirect('/login')
-                    }
-                }
-            })
-        } catch (error: any) {
-            throw new Error(error)
-        }
-    }
+    const displayName = user.name || 'Valued Client';
+
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-10 w-10 rounded-full">
-                    <Avatar className="h-10 w-10">
-                        <AvatarImage src={user.image || undefined} alt={displayName} />
-                        <AvatarFallback>{initials}</AvatarFallback>
+                <Button variant="ghost" className="relative h-10 w-10 rounded-full hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0">
+                    <Avatar className="h-10 w-10 border border-border transition-all hover:border-accent">
+                        <AvatarImage src={user.image || undefined} alt={displayName} className="object-cover" />
+                        <AvatarFallback className="bg-primary/10 text-primary font-cinzel font-bold">
+                            {initials}
+                        </AvatarFallback>
                     </Avatar>
                 </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56" align="end" forceMount>
-                <DropdownMenuLabel className="font-normal">
+            <DropdownMenuContent className="w-64 p-2" align="end" forceMount>
+                <DropdownMenuLabel className="font-normal p-3 bg-secondary/30 rounded-md mb-2">
                     <div className="flex flex-col space-y-1">
-
-                        <p className="text-sm font-medium leading-none">{displayName}</p>
+                        <p className="text-sm font-bold leading-none font-cinzel text-foreground">{displayName}</p>
                         {user.email && (
-                            <p className="text-xs leading-none text-muted-foreground">
+                            <p className="text-xs leading-none text-muted-foreground truncate">
                                 {user.email}
                             </p>
                         )}
                     </div>
                 </DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                    <Link href="/bookings" className="cursor-pointer flex items-center">
-                        <IconCalendar className="mr-2 h-4 w-4" />
-                        <span>Bookings</span>
+                
+                <DropdownMenuItem asChild className="cursor-pointer py-2.5 focus:bg-accent/10 focus:text-accent">
+                    <Link href="/bookings" className="flex items-center">
+                        <CalendarCheck className="mr-3 h-4 w-4" />
+                        <span>My Bookings</span>
                     </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                    <Link href="/settings" className="cursor-pointer flex items-center">
-                        <IconSettings className="mr-2 h-4 w-4" />
-                        <span>Settings</span>
+                
+                <DropdownMenuItem asChild className="cursor-pointer py-2.5 focus:bg-accent/10 focus:text-accent">
+                    <Link href="/settings" className="flex items-center">
+                        <Settings className="mr-3 h-4 w-4" />
+                        <span>Account Settings</span>
                     </Link>
                 </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem className='px-2.5'>
+                
+                <DropdownMenuSeparator className="my-2" />
+                
+                <div className="px-2">
+                    {/* Assuming LogoutButton handles the styling, if not, wrap it */}
                     <LogoutButton />
-                </DropdownMenuItem>
+                </div>
             </DropdownMenuContent>
         </DropdownMenu>
     );
 }
 
-// Mobile Navigation Component
-function MobileNav({ isAuthenticated, isUserCostumer, user }: {
-    isAuthenticated: boolean;
-    isUserCostumer: boolean
-    user?: { name?: string | null; email?: string | null; image?: string | null } | null
-
-}) {
-
+// Component: Mobile Navigation
+function MobileNav({ isAuthenticated, isCustomer }: { isAuthenticated: boolean; isCustomer: boolean }) {
     return (
         <Sheet>
             <SheetTrigger asChild>
-                <div>
-                    <MenuToCloseIcon />
-                </div>
+                <Button variant="ghost" size="icon" className="md:hidden text-foreground hover:bg-transparent">
+                    <Menu className="h-6 w-6" strokeWidth={1.5} />
+                    <span className="sr-only">Toggle menu</span>
+                </Button>
             </SheetTrigger>
-
-            <SheetContent side="left" className="w-[300px] sm:w-[350px] px-4">
-                <SheetHeader className="text-left mb-6">
-                    <SheetTitle className="text-4xl font-extrabold font-cinzel">
-                        Drivaro
+            
+            <SheetContent side="left" className="w-[300px] border-r border-border bg-background/95 backdrop-blur-xl p-0">
+                <SheetHeader className="p-6 text-left border-b border-border/50">
+                    <SheetTitle className="text-3xl font-bold font-cinzel tracking-tight">
+                        DRIVARO<span className="text-accent">.</span>
                     </SheetTitle>
                 </SheetHeader>
 
-                {/* Navigation Links */}
-                <nav className="flex flex-col space-y-1">
-                    {NAVIGATION_LINKS.map((link) => (
-                        <Link
-                            key={link.href}
-                            href={link.href}
-                            className="flex items-center gap-4 px-4 py-3 rounded-lg text-foreground hover:bg-muted transition-colors group"
-                        >
-                            <link.icon className="size-5 text-muted-foreground group-hover:text-foreground transition-colors" />
-                            <span className="text-base font-medium">{link.label}</span>
-                        </Link>
-                    ))}
-                </nav>
+                <div className="flex flex-col h-full py-6 px-4">
+                    <nav className="flex flex-col space-y-1">
+                        {NAVIGATION_LINKS.map((link) => (
+                            <SheetClose key={link.href} asChild>
+                                <Link
+                                    href={link.href}
+                                    className="flex items-center gap-4 px-4 py-4 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary/50 transition-all duration-300 font-hanken-grotesk group"
+                                >
+                                    <link.icon className="h-5 w-5 text-accent/70 group-hover:text-accent transition-colors" />
+                                    <span className="text-base font-medium tracking-wide">{link.label}</span>
+                                </Link>
+                            </SheetClose>
+                        ))}
+                    </nav>
 
-                <Separator className="my-6" />
-
-                {/* Action Buttons */}
-                <div className="space-y-3">
-                    {isAuthenticated && isUserCostumer ? (
-                        <div className="flex flex-col space-y-2">
-                            <Link href="/bookings">
-                                <Button variant="outline" className="w-full">
-                                    Bookings
-                                </Button>
-                            </Link>
-
-                            <LogoutButton shadcn={true} />
-
-                        </div>
-                    ) : (
-                        <Link href="/register">
-                            <Button variant="outline" className="w-full">
-                                Login / Register
-                            </Button>
-                        </Link>
-                    )}
-                </div>
-
-                {/* Footer Info */}
-                <div className="absolute bottom-6 left-6 right-6">
-                    <p className="text-xs text-muted-foreground">
-                        © 2025 Drivaro. All rights reserved.
-                    </p>
+                    <div className="mt-auto pb-8 space-y-4">
+                        <div className="h-[1px] w-full bg-border/50 mb-4" />
+                        
+                        {isAuthenticated ? (
+                            <div className="space-y-3 px-2">
+                                <SheetClose asChild>
+                                    <Link href="/bookings">
+                                        <Button variant="outline" className="w-full justify-start gap-3 h-12 border-primary/20 hover:border-primary/50">
+                                            <LayoutDashboard className="h-4 w-4" />
+                                            Dashboard
+                                        </Button>
+                                    </Link>
+                                </SheetClose>
+                                <LogoutButton />
+                            </div>
+                        ) : (
+                            <div className="px-2">
+                                <SheetClose asChild>
+                                    <Link href="/login">
+                                        <Button className="w-full h-12 bg-primary text-primary-foreground font-cinzel tracking-wide shadow-lg shadow-primary/20">
+                                            Sign In / Register
+                                        </Button>
+                                    </Link>
+                                </SheetClose>
+                            </div>
+                        )}
+                        
+                        <p className="text-[10px] text-center text-muted-foreground uppercase tracking-widest mt-6">
+                            Premium Mobility Service
+                        </p>
+                    </div>
                 </div>
             </SheetContent>
         </Sheet>
     );
 }
 
+// Component: Desktop Navigation Links
+function DesktopNav() {
+    return (
+        <nav className="hidden md:flex items-center gap-8">
+            {NAVIGATION_LINKS.map((link) => (
+                <Link
+                    key={link.href}
+                    href={link.href}
+                    className="relative text-sm font-medium text-muted-foreground hover:text-foreground transition-colors group font-hanken-grotesk tracking-wide"
+                >
+                    {link.label}
+                    <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-accent transition-all duration-300 group-hover:w-full" />
+                </Link>
+            ))}
+        </nav>
+    );
+}
+
+// Main Header Component
 const Header = async () => {
-    // Fetch session with proper error handling
     let session = null;
     try {
+        // Safe header fetching
+        const reqHeaders = await headers();
         session = await auth.api.getSession({
-            headers: await headers()
+            headers: reqHeaders
         });
     } catch (error) {
-        console.error('Failed to fetch session:', error);
-        // Session remains null, user will see logged-out state
+        // Fail silently, showing public view
+        console.error('Session fetch error:', error);
     }
 
-    // Fixed: Changed 'roles' to 'role' (assuming single role) and fixed typo 'costumer' to 'customer'
-    // Also using optional chaining and proper boolean logic
     const isAuthenticated = !!session?.user;
-    const isCustomer = await session?.roles === 'customer' ? true : false;
+    // Assuming 'role' is a property, usually not a Promise. 
+    // If it is a Promise in your specific setup, keep await. Otherwise, remove it.
+    const userRole = await session?.roles || (session as any)?.role; 
+    const isCustomer = userRole === 'customer';
 
     return (
-        <header className='w-full px-10 py-6 font-hanken-grotesk flex items-center justify-around'>
-            {/* Mobile Menu */}
-            <div>
-                <MobileNav
-                    isUserCostumer={isCustomer}
-                    isAuthenticated={isAuthenticated}
-                    user={session?.user}
-                />
-            </div>
-
-            {/* Logo */}
-            <div>
-                <Link href="/">
-                    <h1 className='text-4xl font-extrabold font-cinzel'>Drivaro</h1>
-                </Link>
-            </div>
-
-            {/* Desktop Auth Section */}
-            <div>
-                {isAuthenticated && session?.user ? (
-                    <ProfileDropdown user={session.user} />
-                ) : (
-                    <Link href="/register">
-                        <Button variant="outline">Login / Register</Button>
+        <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-md">
+            <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+                
+                {/* Left: Mobile Trigger & Desktop Brand */}
+                <div className="flex items-center gap-4">
+                    <MobileNav 
+                        isAuthenticated={isAuthenticated} 
+                        isCustomer={isCustomer} 
+                    />
+                    
+                    <Link href="/" className="flex items-center gap-2 group">
+                        <h1 className="text-2xl md:text-3xl font-bold font-cinzel tracking-tight text-foreground transition-opacity hover:opacity-90">
+                            DRIVARO<span className="text-accent group-hover:animate-pulse">.</span>
+                        </h1>
                     </Link>
-                )}
+                </div>
+
+                {/* Center: Desktop Navigation */}
+                <DesktopNav />
+
+                {/* Right: Auth / User Actions */}
+                <div className="flex items-center gap-4">
+                    {isAuthenticated && session?.user ? (
+                        <div className="flex items-center gap-4">
+                            <span className="hidden md:block text-xs text-muted-foreground font-medium uppercase tracking-wider">
+                                Welcome, {session.user.name?.split(' ')[0]}
+                            </span>
+                            <ProfileDropdown user={session.user} />
+                        </div>
+                    ) : (
+                        <div className="flex items-center gap-4">
+                            <Link href="/register" className="hidden md:block">
+                                <Button 
+                                    variant="ghost" 
+                                    className="text-muted-foreground hover:text-foreground font-hanken-grotesk"
+                                >
+                                    Log In
+                                </Button>
+                            </Link>
+                            <Link href="/register">
+                                <Button className="h-10 px-6 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 font-medium tracking-wide shadow-md transition-all hover:scale-105">
+                                    Register
+                                </Button>
+                            </Link>
+                        </div>
+                    )}
+                </div>
             </div>
         </header>
     );
