@@ -50,9 +50,9 @@ const CarCollection = ({ cars }: { cars: ICarCard[] }) => {
     }
 
     return (
-        <section className='w-full flex flex-col items-center my-40 font-hanken-grotesk'>
+        <section className='w-full flex flex-col items-center my-20 font-hanken-grotesk'>
             <div className='w-full max-w-7xl flex flex-col items-center text-center px-4'>
-                <h1 className='text-6xl font-extrabold'>Our Impressive Collection of Cars</h1>
+                <h1 className='text-7xl italic font-cinzel text-primary '>Our Impressive  <span className='text-accent'>Collection <br /> of Cars</span>  </h1>
                 <p className='text-lg max-w-3xl my-3'>
                     Ranging from elegant sedans to powerful sports cars, all carefully selected to provide our customers with the ultimate driving experience.
                 </p>

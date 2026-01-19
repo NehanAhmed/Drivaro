@@ -7,7 +7,7 @@ const Service = () => {
             <div className='max-w-7xl mx-auto px-6 py-20 md:py-24'>
                 {/* Header */}
                 <div className='max-w-2xl mx-auto text-center mb-16'>
-                    <h1 className='text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground mb-4 tracking-tight'>
+                    <h1 className='text-3xl md:text-4xl lg:text-7xl font-medium font-cinzel  text-accent mb-4 tracking-tight'>
                         Our Service & Benefits
                     </h1>
                     <p className='text-base md:text-lg text-muted-foreground leading-relaxed'>

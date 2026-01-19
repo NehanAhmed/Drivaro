@@ -78,6 +78,7 @@ function ProfileDropdown({ user }: { user: { name?: string | null; email?: strin
             <DropdownMenuContent className="w-56" align="end" forceMount>
                 <DropdownMenuLabel className="font-normal">
                     <div className="flex flex-col space-y-1">
+
                         <p className="text-sm font-medium leading-none">{displayName}</p>
                         {user.email && (
                             <p className="text-xs leading-none text-muted-foreground">
@@ -88,7 +89,7 @@ function ProfileDropdown({ user }: { user: { name?: string | null; email?: strin
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
-                    <Link href="/" className="cursor-pointer flex items-center">
+                    <Link href="/bookings" className="cursor-pointer flex items-center">
                         <IconCalendar className="mr-2 h-4 w-4" />
                         <span>Bookings</span>
                     </Link>
