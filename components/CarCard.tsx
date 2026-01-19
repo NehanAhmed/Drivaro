@@ -45,9 +45,12 @@ const CarCard = ({ car }: { car: ICarCard }) => {
         <MotionCard layoutId={car.id} className='w-full max-w-2xl py-0 '>
             <CardHeader className='px-0 py-0'>
                 {car.isInstantBooking ? (
-                    <Badge variant={'secondary'}>
+                    <div className='px-2 py-2'>
+
+                    <Badge variant={'default'}>
                         Instant Booking <IconCheck />
                     </Badge>
+                    </div>
 
                 ) : (null)}
                 <Image src={car.images?.[0] || '/default-car-image.jpg'} alt={`${car.make} ${car.model}`} width={400} height={100} className='object-cover object-center rounded-tl-2xl rounded-tr-2xl aspect-square' />
