@@ -9,7 +9,8 @@ import {
     User, 
     Menu, 
     X,
-    LayoutDashboard
+    LayoutDashboard,
+    LayoutGrid
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
@@ -32,7 +33,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import Link from 'next/link'
 import { auth } from '@/lib/auth'
 import { headers } from 'next/headers'
-import LogoutButton from './logoutButton' // Assuming this handles the client-side authClient.signOut
+import LogoutButton from './logoutButton'
 
 // Navigation Configuration
 const NAVIGATION_LINKS = [
@@ -58,9 +59,14 @@ function getUserInitials(name?: string | null, email?: string | null): string {
 }
 
 // Component: Profile Dropdown
-function ProfileDropdown({ user }: { user: { name?: string | null; email?: string | null; image?: string | null } }) {
+// ADDED: role prop to handle conditional rendering
+function ProfileDropdown({ user, role }: { 
+    user: { name?: string | null; email?: string | null; image?: string | null };
+    role?: string;
+}) {
     const initials = getUserInitials(user.name, user.email);
     const displayName = user.name || 'Valued Client';
+    const isVendor = role === 'vendor';
 
     return (
         <DropdownMenu>
@@ -78,32 +84,40 @@ function ProfileDropdown({ user }: { user: { name?: string | null; email?: strin
                 <DropdownMenuLabel className="font-normal p-3 bg-secondary/30 rounded-md mb-2">
                     <div className="flex flex-col space-y-1">
                         <p className="text-sm font-bold leading-none font-cinzel text-foreground">{displayName}</p>
-                        {user.email && (
-                            <p className="text-xs leading-none text-muted-foreground truncate">
-                                {user.email}
-                            </p>
-                        )}
+                        <p className="text-[10px] font-bold text-accent uppercase tracking-tighter">{role}</p>
                     </div>
                 </DropdownMenuLabel>
                 
-                <DropdownMenuItem asChild className="cursor-pointer py-2.5 focus:bg-accent/10 focus:text-accent">
-                    <Link href="/bookings" className="flex items-center">
-                        <CalendarCheck className="mr-3 h-4 w-4" />
-                        <span>My Bookings</span>
-                    </Link>
-                </DropdownMenuItem>
-                
-                <DropdownMenuItem asChild className="cursor-pointer py-2.5 focus:bg-accent/10 focus:text-accent">
-                    <Link href="/settings" className="flex items-center">
-                        <Settings className="mr-3 h-4 w-4" />
-                        <span>Account Settings</span>
-                    </Link>
-                </DropdownMenuItem>
+                {/* VENDOR VIEW: Show Dashboard */}
+                {isVendor ? (
+                    <DropdownMenuItem asChild className="cursor-pointer py-2.5 focus:bg-accent/10 focus:text-accent font-medium">
+                        <Link href="/vendor/dashboard" className="flex items-center">
+                            <LayoutGrid className="mr-3 h-4 w-4" />
+                            <span>Vendor Dashboard</span>
+                        </Link>
+                    </DropdownMenuItem>
+                ) : (
+                    /* CUSTOMER VIEW: Show Bookings & Settings */
+                    <>
+                        <DropdownMenuItem asChild className="cursor-pointer py-2.5 focus:bg-accent/10 focus:text-accent">
+                            <Link href="/bookings" className="flex items-center">
+                                <CalendarCheck className="mr-3 h-4 w-4" />
+                                <span>My Bookings</span>
+                            </Link>
+                        </DropdownMenuItem>
+                        
+                        <DropdownMenuItem asChild className="cursor-pointer py-2.5 focus:bg-accent/10 focus:text-accent">
+                            <Link href="/settings" className="flex items-center">
+                                <Settings className="mr-3 h-4 w-4" />
+                                <span>Account Settings</span>
+                            </Link>
+                        </DropdownMenuItem>
+                    </>
+                )}
                 
                 <DropdownMenuSeparator className="my-2" />
                 
                 <div className="px-2">
-                    {/* Assuming LogoutButton handles the styling, if not, wrap it */}
                     <LogoutButton />
                 </div>
             </DropdownMenuContent>
@@ -112,7 +126,9 @@ function ProfileDropdown({ user }: { user: { name?: string | null; email?: strin
 }
 
 // Component: Mobile Navigation
-function MobileNav({ isAuthenticated, isCustomer }: { isAuthenticated: boolean; isCustomer: boolean }) {
+function MobileNav({ isAuthenticated, role }: { isAuthenticated: boolean; role?: string }) {
+    const isVendor = role === 'vendor';
+
     return (
         <Sheet>
             <SheetTrigger asChild>
@@ -150,10 +166,11 @@ function MobileNav({ isAuthenticated, isCustomer }: { isAuthenticated: boolean; 
                         {isAuthenticated ? (
                             <div className="space-y-3 px-2">
                                 <SheetClose asChild>
-                                    <Link href="/bookings">
+                                    {/* Conditional link for Mobile Dashboard */}
+                                    <Link href={isVendor ? "/vendor/dashboard" : "/bookings"}>
                                         <Button variant="outline" className="w-full justify-start gap-3 h-12 border-primary/20 hover:border-primary/50">
                                             <LayoutDashboard className="h-4 w-4" />
-                                            Dashboard
+                                            {isVendor ? 'Vendor Panel' : 'My Bookings'}
                                         </Button>
                                     </Link>
                                 </SheetClose>
@@ -170,10 +187,6 @@ function MobileNav({ isAuthenticated, isCustomer }: { isAuthenticated: boolean; 
                                 </SheetClose>
                             </div>
                         )}
-                        
-                        <p className="text-[10px] text-center text-muted-foreground uppercase tracking-widest mt-6">
-                            Premium Mobility Service
-                        </p>
                     </div>
                 </div>
             </SheetContent>
@@ -181,7 +194,7 @@ function MobileNav({ isAuthenticated, isCustomer }: { isAuthenticated: boolean; 
     );
 }
 
-// Component: Desktop Navigation Links
+// Desktop Nav (Hidden on Mobile)
 function DesktopNav() {
     return (
         <nav className="hidden md:flex items-center gap-8">
@@ -203,31 +216,26 @@ function DesktopNav() {
 const Header = async () => {
     let session = null;
     try {
-        // Safe header fetching
         const reqHeaders = await headers();
         session = await auth.api.getSession({
             headers: reqHeaders
         });
     } catch (error) {
-        // Fail silently, showing public view
         console.error('Session fetch error:', error);
     }
 
     const isAuthenticated = !!session?.user;
-    // Assuming 'role' is a property, usually not a Promise. 
-    // If it is a Promise in your specific setup, keep await. Otherwise, remove it.
-    const userRole = await session?.roles || (session as any)?.role; 
-    const isCustomer = userRole === 'customer';
-
+    // Extracting role (adjust key based on your Auth implementation)
+    const userRole = await session?.roles || (session as any)?.role || 'customer';
+    
     return (
         <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-md">
             <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
                 
-                {/* Left: Mobile Trigger & Desktop Brand */}
                 <div className="flex items-center gap-4">
                     <MobileNav 
                         isAuthenticated={isAuthenticated} 
-                        isCustomer={isCustomer} 
+                        role={userRole} 
                     />
                     
                     <Link href="/" className="flex items-center gap-2 group">
@@ -237,25 +245,20 @@ const Header = async () => {
                     </Link>
                 </div>
 
-                {/* Center: Desktop Navigation */}
                 <DesktopNav />
 
-                {/* Right: Auth / User Actions */}
                 <div className="flex items-center gap-4">
                     {isAuthenticated && session?.user ? (
                         <div className="flex items-center gap-4">
                             <span className="hidden md:block text-xs text-muted-foreground font-medium uppercase tracking-wider">
-                                Welcome, {session.user.name?.split(' ')[0]}
+                                {userRole === 'vendor' ? 'Vendor Portal' : `Welcome, ${session.user.name?.split(' ')[0]}`}
                             </span>
-                            <ProfileDropdown user={session.user} />
+                            <ProfileDropdown user={session.user} role={userRole} />
                         </div>
                     ) : (
                         <div className="flex items-center gap-4">
-                            <Link href="/register" className="hidden md:block">
-                                <Button 
-                                    variant="ghost" 
-                                    className="text-muted-foreground hover:text-foreground font-hanken-grotesk"
-                                >
+                            <Link href="/login" className="hidden md:block">
+                                <Button variant="ghost" className="text-muted-foreground hover:text-foreground font-hanken-grotesk">
                                     Log In
                                 </Button>
                             </Link>
