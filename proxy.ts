@@ -9,11 +9,13 @@ const ALLOWED_IPS = [
   '103.255.4.50',  // Example: Your home IP
   '::1',           // localhost IPv6
   '127.0.0.1',     // localhost IPv4
+  '144.48.129.236'
 ];
 
 const ALLOWED_DEVICE_FINGERPRINTS = [
   'TW96aWxsYS81LjAgKFgxMTsgTGludXggeDg2XzY0KSBBcHBsZVdlYktpdC81MzcuMzYgKEtIVE1MLCBsaWtlIEdlY2tvKSBDaHJvbWUvMTQ0LjAuMC4wIFNhZmFyaS81MzcuMzYtZW4tVVMsZW47cT0wLjctZ3ppcCwgZGVmbGF0ZSwgYnIsIHpzdGQ=',
   'your-device-fingerprint-hash-2',
+  
 ];
 
 function getClientIP(request: NextRequest): string {
