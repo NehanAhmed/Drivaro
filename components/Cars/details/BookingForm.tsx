@@ -11,6 +11,7 @@ import { Calendar } from '@/components/ui/calendar';
 import { Label } from '@/components/ui/label';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
+import { authClient } from '@/lib/auth-client';
 
 export interface Vendor {
   id: string;
@@ -118,6 +119,7 @@ export const BookingForm = ({ car, vendor }: BookingFormProps) => {
     monthlyRate: car.monthlyRate || null,
     commissionRate: vendor.commissionRate,
   };
+
 
   return (
     <div className="sticky top-6 space-y-6 rounded-2xl border bg-card p-6 shadow-sm">

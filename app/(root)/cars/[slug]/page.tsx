@@ -10,6 +10,8 @@ import Image from 'next/image';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { auth } from '@/lib/auth';
+import { headers } from 'next/headers';
 
 
 
@@ -30,6 +32,11 @@ function getUserInitials(name?: string | null, email?: string | null): string {
 
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
+    const userRole = await auth.api.getSession({
+        headers: await headers()
+    })
+
+
     const { slug } = await params
     const carDetails = await db
         .select({
@@ -274,7 +281,12 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
 
                     {/* Right Column - Booking Form */}
                     <div className="lg:col-span-1">
-                        <BookingForm vendor={vendorData} car={carData} />
+                        {await userRole?.roles === 'vendor' ? (
+                            null
+                        ) : (
+
+                            <BookingForm vendor={vendorData} car={carData} />
+                        )}
                     </div>
                 </div>
             </div>
