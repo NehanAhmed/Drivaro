@@ -2,12 +2,31 @@ export const dynamic = 'force-dynamic'
 
 import { AppSidebar } from "@/components/app-sidebar-admin"
 import { SiteHeader } from "@/components/site-header"
-
 import {
     SidebarInset,
     SidebarProvider,
 } from "@/components/ui/sidebar"
-const Layout = ({ children }: { children: React.ReactNode }) => {
+import { auth } from "@/lib/auth"
+import { headers } from "next/headers"
+import { redirect } from "next/navigation"
+
+const Layout = async ({ children }: { children: React.ReactNode }) => {
+    // Get session
+    const session = await auth.api.getSession({
+        headers: await headers()
+    })
+
+    // Check if user is authenticated
+    if (!session?.session) {
+        redirect('/login') // Redirect to login instead of home
+    }
+
+    // Check if user has admin role
+    const role = await session.roles // Remove await - roles is not a promise
+    if (role !== 'admin') {
+        redirect('/') // Or redirect to unauthorized page
+    }
+
     return (
         <SidebarProvider
             style={

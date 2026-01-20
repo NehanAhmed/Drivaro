@@ -30,7 +30,7 @@ export function SignupForm({
   const [confirmPassword, setConfirmPassword] = useState("")
   const [loading, setLoading] = useState(false)
   const [googleLoading, setGoogleLoading] = useState(false)
-  
+
 
   const router = useRouter();
 
@@ -63,7 +63,7 @@ export function SignupForm({
     return true
   }
 
- 
+
 
   const handleEmailPasswordAuth = async (event: React.FormEvent) => {
     event.preventDefault()
@@ -99,10 +99,20 @@ export function SignupForm({
       // Create vendor profile
       localStorage.setItem('user_id', userId);
 
+      const loginResponse = await authClient.signIn.email({
+        email: response?.data?.user?.email,
+        password: password,
+        rememberMe: true, 
+      })  
+
+      if(loginResponse.error){
+        toast.error(loginResponse.error.message || "Failed to create account")
+        return
+      }
 
       toast.success("Account created successfully!")
       setTimeout(() => {
-        router.push("/vendor/login");
+        router.push("/vendor/onboarding");
       }, 3000);
       // Clear form on success
       setName("")
@@ -126,7 +136,7 @@ export function SignupForm({
     try {
       const response = await authClient.signIn.social({
         provider: "google",
-        callbackURL: `${window.location.origin}/vendor/dashboard`,
+        callbackURL: `${window.location.origin}/vendor/onboarding`,
       })
 
       if (response.error) {

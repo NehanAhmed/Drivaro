@@ -167,6 +167,16 @@ export async function POST(request: NextRequest): Promise<NextResponse<ApiSucces
             );
         }
 
+        const [verifiedVendor] = await db.select({ status: vendor.status }).from(vendor).where(eq(vendor.id, validatedData.vendorId)).limit(1)
+
+        if (verifiedVendor.status === 'pending') {
+            return NextResponse.json(
+                { error: "Vendor is Not verified Yet" },
+                { status: 402 }
+            );
+        }
+
+
         // Generate slug
         const slug = generateSlug(
             validatedData.make,
@@ -276,10 +286,10 @@ export async function GET(
             .where(eq(car.vendorId, vendorId));
 
         return NextResponse.json(
-            { 
-                success: true, 
-                data: cars 
-            }, 
+            {
+                success: true,
+                data: cars
+            },
             { status: 200 }
         );
     } catch (error) {

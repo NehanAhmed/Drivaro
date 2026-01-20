@@ -26,6 +26,7 @@ import { StatsCards } from '@/components/admin/StatsCard';
 import { RevenueChart } from '@/components/admin/RevenueChart';
 import { RecentBookings } from '@/components/admin/RecentBookings';
 import { VendorApprovals } from '@/components/admin/VendorApproval';
+import Link from "next/link";
 
 async function getDashboardStats() {
   const now = new Date();
@@ -134,7 +135,9 @@ async function getPendingVendors() {
     .from(vendor)
     .leftJoin(user, eq(vendor.userId, user.id))
     .where(eq(vendor.status, "pending"))
+    .limit(5)
     .orderBy(desc(vendor.createdAt));
+
 
   return rows.map(r => ({
     id: r.id,
@@ -276,27 +279,37 @@ export default async function AdminDashboard() {
             <CardTitle>Quick Actions</CardTitle>
             <CardDescription>Manage your platform</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-3">
-            <Button className="w-full justify-start" variant="outline">
-              <Users className="h-4 w-4 mr-2" />
-              Manage Users
-            </Button>
-            <Button className="w-full justify-start" variant="outline">
-              <Car className="h-4 w-4 mr-2" />
-              Manage Vehicles
-            </Button>
-            <Button className="w-full justify-start" variant="outline">
-              <Calendar className="h-4 w-4 mr-2" />
-              View All Bookings
-            </Button>
-            <Button className="w-full justify-start" variant="outline">
-              <DollarSign className="h-4 w-4 mr-2" />
-              Financial Reports
-            </Button>
-            <Button className="w-full justify-start" variant="outline">
-              <FileText className="h-4 w-4 mr-2" />
-              Document Verification
-            </Button>
+          <CardContent className="space-y-4">
+            <Link href={'/admin/dashboard/users'}  className="mt-2">
+              <Button className="w-full justify-start" variant="outline">
+                <Users className="h-4 w-4 mr-2" />
+                Manage Users
+              </Button>
+            </Link>
+            <Link href={'/admin/dashboard/vehicles'} className="mt-2">
+              <Button className="w-full justify-start" variant="outline">
+                <Car className="h-4 w-4 mr-2" />
+                Manage Vehicles
+              </Button>
+            </Link>
+            <Link href={'/admin/dashboard/bookings'} className="mt-2">
+              <Button className="w-full justify-start" variant="outline">
+                <Calendar className="h-4 w-4 mr-2" />
+                View All Bookings
+              </Button>
+            </Link>
+            <Link href={'/admin/dashboard/reports'} className="mt-2">
+              <Button className="w-full justify-start" variant="outline">
+                <DollarSign className="h-4 w-4 mr-2" />
+                Financial Reports
+              </Button>
+            </Link>
+            <Link href={'/admin/dashboard/documents'} className="mt-2">
+              <Button className="w-full justify-start" variant="outline">
+                <FileText className="h-4 w-4 mr-2" />
+                Document Verification
+              </Button>
+            </Link>
           </CardContent>
         </Card>
       </div>
@@ -307,11 +320,7 @@ export default async function AdminDashboard() {
         <VendorApprovals vendors={pendingVendors} />
       </div>
 
-      {/* Recent Bookings and Vendor Approvals */}
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-        <RecentBookings bookings={recentBookings} />
-        <VendorApprovals vendors={pendingVendors} />
-      </div>
+
 
       {/* Dynamic Additional Stats Row */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">

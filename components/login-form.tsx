@@ -61,7 +61,7 @@ const LoginForm = ({
         {
           email: email.trim(),
           password: password,
-          callbackURL: `${window.location.origin}/vendor/onboarding`,
+          callbackURL: `${window.location.origin}/vendor/dashboard`,
         },
         {
           onError: (ctx) => {
@@ -83,7 +83,7 @@ const LoginForm = ({
       }
 
       toast.success("Signed in successfully!")
-      router.push("/vendor/onboarding")
+      router.push("/vendor/dashboard")
       setEmail("")
       setPassword("")
     } catch (error) {

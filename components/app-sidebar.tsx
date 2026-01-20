@@ -37,7 +37,7 @@ const items = [
 
 export function AppSidebar() {
     return (
-        <Sidebar variant="floating">
+        <Sidebar variant="floating" >
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem className="px-2 py-2">

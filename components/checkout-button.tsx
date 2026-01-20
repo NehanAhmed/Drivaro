@@ -165,7 +165,7 @@ export function CheckoutButton({
     ? 'Processing...'
     : !isInstantBooking
     ? 'Request Booking'
-    : `Pay ${totalAmount.totalAmount.toFixed(2)}`;
+    : `Pay ${totalAmount.totalAmount.toFixed(2) || null} `;
 
   return (
     <div className="space-y-2">

@@ -12,7 +12,7 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { IconBug, IconCalendar, IconCar, IconHome, IconPaperclip, IconReport, IconSettings, IconUser } from "@tabler/icons-react"
+import { IconBug, IconCalendar, IconCar, IconFile, IconHome, IconPaperclip, IconReport, IconSettings, IconUser } from "@tabler/icons-react"
 import Link from "next/link"
 
 // Menu items.
@@ -47,6 +47,12 @@ const items = [
         url: "/admin/dashboard/documents",
         icon: IconPaperclip,
     },
+    {
+        title: "Reports",
+        url: "/admin/dashboard/reports",
+        icon: IconFile,
+    },
+    
 
 ]
 
