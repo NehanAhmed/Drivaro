@@ -25,6 +25,7 @@ import { VehiclePerformance } from '@/components/Vendor/vehicle-performance';
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
 import { getVendorIdByUserId } from '@/hooks/getVendorIdByUserId';
+import Link from 'next/link';
 
 // Get vendor dashboard data
 async function getVendorDashboardData(vendorId: string) {
@@ -224,10 +225,12 @@ export default async function VendorDashboardPage() {
             <Calendar className="h-4 w-4 mr-2" />
             This Month
           </Button>
-          <Button>
-            <Car className="h-4 w-4 mr-2" />
-            Add Vehicle
-          </Button>
+          <Link href={'/vendor/dashboard/vehicles'}>
+            <Button >
+              <Car className="h-4 w-4 mr-2" />
+              Add Vehicle
+            </Button>
+          </Link>
         </div>
       </div>
 
@@ -243,22 +246,30 @@ export default async function VendorDashboardPage() {
             <CardDescription>Manage your business efficiently</CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
-            <Button className="w-full justify-start" variant="outline">
-              <Car className="h-4 w-4 mr-2" />
-              Manage Vehicles
-            </Button>
-            <Button className="w-full justify-start" variant="outline">
-              <Calendar className="h-4 w-4 mr-2" />
-              View Bookings
-            </Button>
-            <Button className="w-full justify-start" variant="outline">
-              <DollarSign className="h-4 w-4 mr-2" />
-              Financial Reports
-            </Button>
-            <Button className="w-full justify-start" variant="outline">
-              <Users className="h-4 w-4 mr-2" />
-              Customer Reviews
-            </Button>
+            <Link href={'/vendor/dashboard/vehicles'}>
+              <Button className="w-full justify-start" variant="outline">
+                <Car className="h-4 w-4 mr-2" />
+                Manage Vehicles
+              </Button>
+            </Link>
+            <Link href={'/vendor/dashboard/bookings'}>
+              <Button className="w-full justify-start" variant="outline">
+                <Calendar className="h-4 w-4 mr-2" />
+                View Bookings
+              </Button>
+            </Link>
+            <Link href={'/vendor/dashboard/reports'}>
+              <Button className="w-full justify-start" variant="outline">
+                <DollarSign className="h-4 w-4 mr-2" />
+                Financial Reports
+              </Button>
+            </Link>
+            <Link href={'/vendor/dashboard/reviews'} >
+              <Button className="w-full justify-start" variant="outline">
+                <Users className="h-4 w-4 mr-2" />
+                Customer Reviews
+              </Button>
+            </Link>
           </CardContent>
         </Card>
 

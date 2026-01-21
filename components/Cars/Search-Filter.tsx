@@ -65,7 +65,7 @@ const SearchFilter = () => {
 
 
     return (
-        <div className="w-fit rounded-xl max-w-4xl mx-auto border border-border shadow-lg">
+        <div className="w-fit rounded-xl max-w-4xl mx-auto border border-border ">
             <div className="p-6">
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-2">
                     {/* Search Input */}

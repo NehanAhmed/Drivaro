@@ -12,7 +12,7 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { IconBug, IconCalendar, IconCar, IconHome } from "@tabler/icons-react"
+import { IconBug, IconCalendar, IconCar, IconHome, IconPaperclip } from "@tabler/icons-react"
 import Link from "next/link"
 
 // Menu items.
@@ -32,6 +32,7 @@ const items = [
         url: "/vendor/dashboard/bookings",
         icon: IconCalendar,
     },
+        
 
 ]
 
@@ -82,27 +83,7 @@ export function AppSidebar() {
                     </SidebarGroupContent>
                 </SidebarGroup>
             </SidebarContent>
-            <SidebarFooter>
-                <SidebarMenu>
-                    <SidebarMenuItem>
-                        <SidebarMenuButton asChild>
-                            <Link href="/vendor/dashboard/settings">
-                                <Settings />
-                                <span>Settings</span>
-                            </Link>
-                        </SidebarMenuButton>
-                    </SidebarMenuItem>
-                    <SidebarMenuItem>
-                        <SidebarMenuButton asChild>
-                            <Link href="/vendor/dashboard/search">
-                                <Search />
-                                <span>Search</span>
-                            </Link>
-                        </SidebarMenuButton>
-                    </SidebarMenuItem>
-
-                </SidebarMenu>
-            </SidebarFooter>
+            
         </Sidebar>
     )
 }

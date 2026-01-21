@@ -258,7 +258,7 @@ const Header = async () => {
                     ) : (
                         <div className="flex items-center gap-4">
                             <Link href="/login" className="hidden md:block">
-                                <Button variant="ghost" className="text-muted-foreground hover:text-foreground font-hanken-grotesk">
+                                <Button variant="ghost" className="text-muted-foreground hover:text-foreground font-hanken-grotesk rounded-full ">
                                     Log In
                                 </Button>
                             </Link>
@@ -272,7 +272,7 @@ const Header = async () => {
                 </div>
             </div>
         </header>
-    );
+    );vendor/dashboard
 };
 
 export default Header;
